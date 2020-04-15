@@ -21,7 +21,7 @@ public class RulesCommand implements CommandExecutor {
             Player p = (Player) sender;
             List<String> r = Main.getInstance().getConfig().getStringList("Rules");
             if (args.length == 0) {
-                if (r.isEmpty() || r == null) {
+                if (r.isEmpty()) {
                     sendChat(p, "&cNo rules are defined.");
                     if (p.hasPermission("crispycore.rules.admin")) {
                         sendChat(p, "&aPlease use '&7/rules add <rule>&a' to add rules!");
