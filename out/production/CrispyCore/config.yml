@@ -1,0 +1,20 @@
+Settings:
+  Debug: false
+Ranks:
+  default:
+    name: '&8{player}'
+New join:
+  Announcement: '&a{player} has joined for the first time!'
+  Messages:
+  - '&aWelcome to the world, &7{player}.'
+Night skip:
+  Bed enter: '&7{player} &egot in bed, sweet Dreams! &7[&a{inBed}&7/&a{players}&7]'
+  Bed leave: '&7{player} &egot out of bed! &7[&a{inBed}&7/&a{players}&7]'
+  Player quit: '&7{player} &eleft the game! &7[&a{inBed}&7/&a{players}&7]'
+  Afk change: '&7{player} &e{reason}! &7[&a{inBed}&7/&a{players}&7]'
+  World: world
+  Morning messages:
+  - '&aGood morning!'
+  - '&aWakey wakey eggs and bacon!'
+Feed messages:
+  - '&aYou have been fed!'

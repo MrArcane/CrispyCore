@@ -1,0 +1,138 @@
+main: me.mrarcane.crispycore.Main
+name: CrispyCore
+description: The core to CrispyMiners
+version: 1.29.7
+depend: [Vault, GriefPrevention]
+author: MrArcane
+website: none
+api-version: 1.15
+
+commands:
+  coordinates:
+    description: Show your actionbar coordinates
+    aliases: [coords]
+  hug:
+    description: Hug another player!
+    permission: crispycore.hug
+  joinmessage:
+    description: change your join message.
+    permission: crispycore.joinmessage
+  wild:
+    description: teleports you to wild
+    permission: crispycore.wild
+  top:
+    description: Teleport yourself to the top.
+    permission: crispycore.top
+  feed:
+    description: feed yourself.
+    permission: crispycore.feed
+  funitem:
+    description: Give yourself some fun items!
+    permission: crispycore.funitem
+  tpadeny:
+    description: Deny a teleport request.
+    permission: crispycore.tpadeny
+  tpaccept:
+    desctiption: Accept a teleport request.
+    permission: crispycore.tpaccept
+  links:
+    description: View a list of the links
+  suicide:
+    description: commit suicide.
+    permission: crispycore.suicide
+  enderchest:
+    description: Opens players enderchest
+    permission: crispycore.enderchest
+    aliases: [echest]
+  workbench:
+    description: Opens workbench
+    permission: crispycore.workbench
+    aliases: [wb]
+  crispycore:
+    description: Core command.
+  broadcast:
+    description: broadcast messages.
+    permission: crispycore.broadcast
+    aliases: [shout]
+  autobroadcast:
+    description: Auto broadcast command.
+    permission: crispycore.autobroadcast
+    aliases: [ab]
+  teleport:
+    description: TeleportCommand command.
+    permission: crispycore.teleport
+    aliases: [tp]
+  teleporthere:
+    description: teleports player to your location.
+    permission: crispycore.teleporthere
+    aliases: [tphere]
+  mail:
+    description: Send mail to a player.
+  seen:
+    description: See a players last time online.
+    permission: crispycore.seen
+  rules:
+    description: Displays rules of the server
+  back:
+    description: teleport to your last location.
+    permission: crispycore.back
+  hat:
+    description: Wear a fancy hat
+    permission: crispycore.hat
+  fly:
+    description: Allows flight to player
+    permission: crispycore.fly
+  slap:
+    description: slap another player
+    permission: crispycore.slap
+  sendchat:
+    description: send a message to a player.
+    aliases: [sc]
+    permission: crispycore.sendchat
+  setspawn:
+    description: Set the servers spawn point.
+    permission: crispycore.setspawn
+  staff:
+    description: display a list of staff members
+  spawn:
+    description: teleport to spawn
+    permission: crispycore.spawn
+  sethome:
+    description: Sets player home to location.
+    permission: crispycore.sethome
+  deletehome:
+    description: deletes home specifed.
+    permission: crispycore.deletehome
+    aliases: [delhome]
+  home:
+    description: teleport to home.
+    permission: crispycore.homes
+  homes:
+    description: Displays a list of player homes.
+    permission: crispycore.homes
+  modifyhomes:
+    description: change the amount of player homes.
+    permission: crispycore.modifyhomes
+  hometeleport:
+    description: TeleportCommand to another players home.
+    permission: crispycore.hometeleport
+    aliases: [hometp]
+  gamemode:
+    description: Switches gamemodes.
+    permission: crispycore.gamemode
+    aliases: [gm]
+  tpa:
+    description: Request to teleport to player
+    permission: crispycore.tpa
+  tpahere:
+    description: Request to teleport to player
+    permission: crispycore.tpahere
+  crisp:
+    description: Set a player on fire!
+    permission: crispycore.crisp
+  dilly:
+    description: DillyCommand dilly!
+  yllid:
+    description: yllid yllid!
+  afk:
+    description: Go away from keyboard!

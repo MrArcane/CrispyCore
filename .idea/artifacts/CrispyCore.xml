@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="CrispyCore">
+    <output-path>$USER_HOME$/Desktop/Crispy Server/plugins</output-path>
+    <root id="archive" name="CrispyCore.jar">
+      <element id="module-output" name="CrispyCore" />
+    </root>
+  </artifact>
+</component>
