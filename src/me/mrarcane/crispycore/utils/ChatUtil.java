@@ -22,25 +22,30 @@ public class ChatUtil {
     public static String color(String in) {
         return ChatColor.translateAlternateColorCodes('&', in);
     }
-    public static void sendAction(Player p, String text)
-    {
+
+    public static void sendAction(Player p, String text) {
         ChatMessageType b = ChatMessageType.GAME_INFO;
         PacketPlayOutChat packet = new PacketPlayOutChat(IChatBaseComponent.ChatSerializer.a("{\"text\":\"" + color(text) + "\"}"), b);
-        ((CraftPlayer)p).getHandle().playerConnection.sendPacket(packet);
+        ((CraftPlayer) p).getHandle().playerConnection.sendPacket(packet);
     }
+
     public static void sendChat(CommandSender p, String msg) {
         p.sendMessage(color(msg));
     }
+
     public static void broadcast(String msg) {
         Bukkit.getServer().broadcastMessage(color(msg));
     }
+
     public static void log(String msg) {
         Bukkit.getConsoleSender().sendMessage(color("[CrispyCore] " + msg));
     }
+
     public static void sendClickableChat(Player p, String message, String hoverText, String command) {
         TextComponent txtcomponent = new TextComponent(color(message));
         txtcomponent.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, command));
         txtcomponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(color(hoverText)).create()));
         p.spigot().sendMessage(txtcomponent);
     }
+
 }

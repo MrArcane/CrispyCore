@@ -14,6 +14,7 @@ import java.util.HashMap;
 public class SuicideCommand implements CommandExecutor {
 
     public static HashMap<Player, Boolean> suicide = new HashMap<>();
+
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Player p = (Player) sender;

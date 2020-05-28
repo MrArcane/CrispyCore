@@ -1,7 +1,7 @@
 package me.mrarcane.crispycore.commands;
 
 import me.mrarcane.crispycore.Main;
-import me.mrarcane.crispycore.hooks.Vault;
+import me.mrarcane.crispycore.hooks.VaultHook;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -23,7 +23,7 @@ public class StaffCommand implements CommandExecutor {
         List<String> list = Main.getList("Staff list");
         ArrayList<String> players = new ArrayList<>();
         for (Player op : Bukkit.getOnlinePlayers()) {
-            String group = Vault.permission.getPrimaryGroup(op);
+            String group = VaultHook.permission.getPrimaryGroup(op);
             if (list.contains(group)) {
                 char first = Character.toUpperCase(group.charAt(0));
                 players.add(String.format("&e%s &7%s", first + group.substring(1), op.getDisplayName()));

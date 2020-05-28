@@ -11,7 +11,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import static me.mrarcane.crispycore.Main.getInstance;
 
-public class PlayerTeleportEvent implements Listener {
+public class PlayerTeleportListener implements Listener {
     private void teleportParticles(final Player player) {
         new BukkitRunnable() {
             double t = 0; // t for Time
@@ -40,10 +40,11 @@ public class PlayerTeleportEvent implements Listener {
             }
         }.runTaskTimer(getInstance(), 0, 1);
     }
-   @EventHandler
+
+    @EventHandler
     private void onTeleport(org.bukkit.event.player.PlayerTeleportEvent e) {
         if (e.getPlayer().getGameMode() != GameMode.SPECTATOR && e.getCause() == org.bukkit.event.player.PlayerTeleportEvent.TeleportCause.COMMAND) {
             teleportParticles(e.getPlayer());
         }
-   }
+    }
 }

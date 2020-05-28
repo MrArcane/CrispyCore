@@ -5,7 +5,7 @@ import org.apache.commons.lang.WordUtils;
 import java.util.HashMap;
 import java.util.Map;
 
-public enum Biomes {
+public enum BiomeEnum {
     BEACH("Beach"),
     BIRCH_FOREST("Birch forest"),
     BIRCH_FOREST_HILLS("Birch forest hills"),
@@ -67,39 +67,39 @@ public enum Biomes {
     TAIGA("Taiga"),
     TAIGA_HILLS("Taiga hills"),
     TAIGA_MOUNTAINS("Taiga mountains");
+    private static final Map<String, BiomeEnum> lookup = new HashMap<String, BiomeEnum>();
     private final String name;
 
-    private Biomes(final String name){
+    private BiomeEnum(final String name) {
         this.name = name;
     }
 
-    public String toString(){
-        return name;
-    }
-
-    private static final Map<String, Biomes> lookup = new HashMap<String, Biomes>();
     //Returns the Material name from the given block name
-    public static String getName(String fromName){
-        for(Biomes n : values()){
+    public static String getName(String fromName) {
+        for (BiomeEnum n : values()) {
             lookup.put(n.toString(), n);
         }
         String result = lookup.get(fromName).name();
         return result;
     }
 
+    public String toString() {
+        return name;
+    }
+
     //Returns the item name with the first letter uppercased (Example: pressure plate -> Pressure plate)
-    public String firstUpperCased(){
+    public String firstUpperCased() {
         char first = Character.toUpperCase(name.charAt(0));
         return first + name.substring(1);
     }
 
     //Returns the item name with all the words with the first letter uppercased (Example: pressure plate -> Pressure Plate)
-    public String firstAllUpperCased(){
+    public String firstAllUpperCased() {
         return WordUtils.capitalizeFully(name);
     }
 
     //Returns the item name with all the letters uppercased (Example: pressure plate -> PRESSURE PLATE)
-    public String allUpperCased(){
+    public String allUpperCased() {
         return name.toUpperCase();
     }
 }

@@ -14,9 +14,11 @@ import static me.mrarcane.crispycore.utils.ChatUtil.color;
 public class InventoryUtil {
 
     private Inventory inventory;
+
     public InventoryUtil(Player player, String name, int size) {
         this.inventory = Bukkit.createInventory(player, size, color(name));
     }
+
     public void createItem(Material material, String name, String... lore) {
         ArrayList<String> loreList = new ArrayList<String>();
         for (String s : lore) {
@@ -29,6 +31,7 @@ public class InventoryUtil {
         i.setItemMeta(im);
         inventory.addItem(i);
     }
+
     public void open(Player p) {
         p.openInventory(inventory);
     }

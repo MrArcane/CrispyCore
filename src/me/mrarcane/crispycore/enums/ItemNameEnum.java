@@ -1,10 +1,11 @@
 package me.mrarcane.crispycore.enums;
+
 import org.apache.commons.lang.WordUtils;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public enum ItemNames {
+public enum ItemNameEnum {
 
     //Pickaxes
     WOODEN_PICKAXE("Wooden Pickaxe"),
@@ -69,38 +70,38 @@ public enum ItemNames {
     GOLDEN_HELMET("Golden Helmet"),
     DIAMOND_HELMET("Diamond Helmet"),
     CHAINMAIL_HELMET("Chainmail Helmet");
+    private static final Map<String, ItemNameEnum> lookup = new HashMap<String, ItemNameEnum>();
     private final String name;
 
-    private ItemNames(final String name){
+    private ItemNameEnum(final String name) {
         this.name = name;
     }
 
-    public String toString(){
-        return name;
-    }
-
-    private static final Map<String, ItemNames> lookup = new HashMap<String, ItemNames>();
     //Returns the Material name from the given block name
-    public static String getMaterialName(String fromBlockName){
-        for(ItemNames n : values()){
+    public static String getMaterialName(String fromBlockName) {
+        for (ItemNameEnum n : values()) {
             lookup.put(n.toString(), n);
         }
         return lookup.get(fromBlockName).name();
     }
 
+    public String toString() {
+        return name;
+    }
+
     //Returns the item name with the first letter uppercased (Example: pressure plate -> Pressure plate)
-    public String firstUpperCased(){
+    public String firstUpperCased() {
         char first = Character.toUpperCase(name.charAt(0));
         return first + name.substring(1);
     }
 
     //Returns the item name with all the words with the first letter uppercased (Example: pressure plate -> Pressure Plate)
-    public String firstAllUpperCased(){
+    public String firstAllUpperCased() {
         return WordUtils.capitalizeFully(name);
     }
 
     //Returns the item name with all the letters uppercased (Example: pressure plate -> PRESSURE PLATE)
-    public String allUpperCased(){
+    public String allUpperCased() {
         return name.toUpperCase();
     }
 }

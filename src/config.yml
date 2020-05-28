@@ -1,5 +1,6 @@
 Settings:
   Debug: false
+  Max wild: 39998
 Ranks:
   default:
     name: '&8{player}'

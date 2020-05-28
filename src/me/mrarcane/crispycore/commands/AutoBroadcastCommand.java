@@ -1,7 +1,7 @@
 package me.mrarcane.crispycore.commands;
 
 import me.mrarcane.crispycore.Main;
-import me.mrarcane.crispycore.utils.AnnouncementUtil;
+import me.mrarcane.crispycore.managers.AnnouncementManager;
 import me.mrarcane.crispycore.utils.FileUtil;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -18,7 +18,7 @@ import static me.mrarcane.crispycore.utils.ChatUtil.sendChat;
 public class AutoBroadcastCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        FileUtil file = new FileUtil(null,"Announcements");
+        FileUtil file = new FileUtil(null, "Announcements");
         List<String> msgSection = file.getStringList("Messages");
         //Check for /autobroadcast
         if (args.length == 0) {
@@ -39,7 +39,7 @@ public class AutoBroadcastCommand implements CommandExecutor {
             file.set("Messages", msgSection);
             sendChat(sender, String.format("&aCreated broadcast &7'&f%s&7'", msg.trim()));
             file.save();
-            AnnouncementUtil.restart(Main.getInstance());
+            AnnouncementManager.restart(Main.getInstance());
             return true;
         }
         //Check if args is delete
@@ -48,7 +48,7 @@ public class AutoBroadcastCommand implements CommandExecutor {
                 sendChat(sender, "&cUsage: /autobroadcast <delete/del> <int>");
                 return true;
             }
-            int i =  Integer.parseInt(args[1]) - 1;
+            int i = Integer.parseInt(args[1]) - 1;
             if (msgSection.size() < 1) {
                 sendChat(sender, "&cThere are no messages defined.");
                 return true;
@@ -61,13 +61,13 @@ public class AutoBroadcastCommand implements CommandExecutor {
             msgSection.remove(msgSection.get(i));
             file.set("Messages", msgSection);
             file.save();
-            AnnouncementUtil.restart(Main.getInstance());
+            AnnouncementManager.restart(Main.getInstance());
             return true;
         }
         //Check if args is list
         if (args[0].equalsIgnoreCase("list")) {
             for (int i = 0; i < msgSection.size(); i++) {
-                sendChat(sender, String.format("&7%s. &a%s", i  + 1, msgSection.get(i)));
+                sendChat(sender, String.format("&7%s. &a%s", i + 1, msgSection.get(i)));
             }
             return true;
         }

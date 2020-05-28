@@ -19,39 +19,39 @@ public class TeleportCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender instanceof Player) {
             Player p = (Player) sender;
-                if (args.length == 0) {
-                    sendChat(sender, "&cUsage: /teleport <player/x y z>");
-                    return true;
-                }
+            if (args.length == 0) {
+                sendChat(sender, "&cUsage: /teleport <player/x y z>");
+                return true;
+            }
             if (p.hasPermission("crispycore.back")) {
                 back.put(p, p.getLocation());
                 sendChat(p, "&eTo go back type &7/back");
             }
-                if (args.length == 1) {
-                    Player t = Bukkit.getPlayer(args[0]);
-                    if (t == null) {
-                        sendChat(sender, String.format("&c%s is offline.", args[0]));
-                        return true;
-                    }
-                    p.teleport(t);
-                    sendChat(sender, String.format("Teleported to %s", t.getName()));
+            if (args.length == 1) {
+                Player t = Bukkit.getPlayer(args[0]);
+                if (t == null) {
+                    sendChat(sender, String.format("&c%s is offline.", args[0]));
                     return true;
                 }
-                if (args.length >= 4) {
-                    sendChat(sender, "&cTo many arguments. /tp <X> <Y> <Z>");
-                    return true;
-                }
-                if (args.length != 3) {
-                    sendChat(sender, "&cNeed more arguments. /tp <X> <Y> <Z>");
-                    return true;
-                }
-                double X = (Integer.parseInt(args[0]));
-                double Y = (Integer.parseInt(args[1]));
-                double Z = (Integer.parseInt(args[2]));
-                Location loc = new Location(p.getWorld(), X, Y, Z);
-                sendChat(sender, String.format("Teleported to X: %s Y: %s Z: %s", X, Y, Z));
-                p.teleport(loc);
+                p.teleport(t);
+                sendChat(sender, String.format("Teleported to %s", t.getName()));
                 return true;
+            }
+            if (args.length >= 4) {
+                sendChat(sender, "&cTo many arguments. /tp <X> <Y> <Z>");
+                return true;
+            }
+            if (args.length != 3) {
+                sendChat(sender, "&cNeed more arguments. /tp <X> <Y> <Z>");
+                return true;
+            }
+            double X = (Integer.parseInt(args[0]));
+            double Y = (Integer.parseInt(args[1]));
+            double Z = (Integer.parseInt(args[2]));
+            Location loc = new Location(p.getWorld(), X, Y, Z);
+            sendChat(sender, String.format("Teleported to X: %s Y: %s Z: %s", X, Y, Z));
+            p.teleport(loc);
+            return true;
         }
         return false;
     }

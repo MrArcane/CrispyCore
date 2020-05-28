@@ -9,7 +9,7 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 
 import static me.mrarcane.crispycore.utils.ChatUtil.log;
 
-public class Vault {
+public class VaultHook {
     public static Permission permission = null;
     public static Economy economy = null;
     public static Chat chat = null;
@@ -18,14 +18,14 @@ public class Vault {
         setupPermissions();
         setupChat();
         setupEconomy();
-        for (String groups : Vault.chat.getGroups()) {
+        for (String groups : VaultHook.chat.getGroups()) {
             if (!Main.getSection("Ranks").contains(groups)) {
                 log(String.format("Group %s is not in the Ranks section in the config!", groups));
             }
         }
     }
-    private static boolean setupPermissions()
-    {
+
+    private static boolean setupPermissions() {
         RegisteredServiceProvider<Permission> permissionProvider = Bukkit.getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
         if (permissionProvider != null) {
             permission = permissionProvider.getProvider();
@@ -33,8 +33,7 @@ public class Vault {
         return (permission != null);
     }
 
-    private static boolean setupChat()
-    {
+    private static boolean setupChat() {
         RegisteredServiceProvider<Chat> chatProvider = Bukkit.getServer().getServicesManager().getRegistration(net.milkbowl.vault.chat.Chat.class);
         if (chatProvider != null) {
             chat = chatProvider.getProvider();
@@ -43,8 +42,7 @@ public class Vault {
         return (chat != null);
     }
 
-    private static boolean setupEconomy()
-    {
+    private static boolean setupEconomy() {
         RegisteredServiceProvider<Economy> economyProvider = Bukkit.getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
         if (economyProvider != null) {
             economy = economyProvider.getProvider();

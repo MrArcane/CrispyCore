@@ -1,6 +1,6 @@
 package me.mrarcane.crispycore.commands;
 
-import me.mrarcane.crispycore.utils.PlayerUtil;
+import me.mrarcane.crispycore.managers.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -21,8 +21,9 @@ public class ModifyHomesCommand implements CommandExecutor {
             return true;
         }
         org.bukkit.entity.Player p = (org.bukkit.entity.Player) Bukkit.getOfflinePlayer(args[0]);
-        PlayerUtil pd = new PlayerUtil(p.getUniqueId().toString());
-        ConfigurationSection pSection = pd.getConfigurationSection("Player");;
+        PlayerManager pd = new PlayerManager(p.getUniqueId().toString());
+        ConfigurationSection pSection = pd.getConfigurationSection("Player");
+        ;
         int mHomes = 0;
         if (pSection.getString("Max homes") != null) {
             mHomes = Integer.parseInt(pSection.getString("Max homes"));

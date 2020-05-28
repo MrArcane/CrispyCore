@@ -38,7 +38,7 @@ public class TpaAcceptCommand implements CommandExecutor {
                 return true;
             }
             sendChat(p, "&cNo teleport requests found.");
-                return true;
+            return true;
         }
         return false;
     }

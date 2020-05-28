@@ -1,7 +1,7 @@
 package me.mrarcane.crispycore.commands;
 
 import me.mrarcane.crispycore.Main;
-import me.mrarcane.crispycore.utils.PlayerUtil;
+import me.mrarcane.crispycore.managers.PlayerManager;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -15,15 +15,16 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 
-import static me.mrarcane.crispycore.utils.ChatUtil.*;
+import static me.mrarcane.crispycore.utils.ChatUtil.color;
+import static me.mrarcane.crispycore.utils.ChatUtil.sendChat;
 
 public class TpaCommand implements CommandExecutor {
-    public static Map<Player, Player> tpmap = new HashMap();
+    public static Map<Player, Player> tpmap = new HashMap<>();
 
     public boolean onCommand(CommandSender sender, Command cmd, String value, String[] args) {
         if (sender instanceof Player) {
             Player p = (Player) sender;
-            PlayerUtil pd = new PlayerUtil(p.getUniqueId().toString());
+            PlayerManager pd = new PlayerManager(p.getUniqueId().toString());
             if (args.length == 0) {
                 sender.sendMessage(color("&7Usage: &c/tpa <player>"));
                 return false;
@@ -49,7 +50,7 @@ public class TpaCommand implements CommandExecutor {
                 sendChat(p, String.format("&c%s is offline", args[0]));
                 return true;
             }
-            PlayerUtil td = new PlayerUtil(t.getUniqueId().toString());
+            PlayerManager td = new PlayerManager(t.getUniqueId().toString());
             if (td.getString("Player.Teleport toggle").equals("false")) {
                 sendChat(p, "&cYou can't teleport to this player.");
                 return true;

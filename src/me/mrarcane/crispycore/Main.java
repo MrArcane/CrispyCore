@@ -4,7 +4,8 @@ import me.mrarcane.crispycore.commands.*;
 import me.mrarcane.crispycore.files.AnnouncementsFile;
 import me.mrarcane.crispycore.files.HomeIconsFile;
 import me.mrarcane.crispycore.listeners.*;
-import me.mrarcane.crispycore.utils.*;
+import me.mrarcane.crispycore.managers.*;
+import me.mrarcane.crispycore.utils.ChatUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.configuration.ConfigurationSection;
@@ -23,25 +24,29 @@ import static me.mrarcane.crispycore.utils.ChatUtil.log;
  **/
 public class Main extends JavaPlugin {
 
-    private static Main instance;
     public static BukkitTask announcer;
     public static BukkitTask coordinates;
+    private static Main instance;
 
     public static Boolean debug() {
         return getInstance().getConfig().getBoolean("Settings.Debug");
     }
+
     private static void loadCmd(String cmd, CommandExecutor executor) {
         getInstance().getServer().getPluginCommand(cmd).setExecutor(executor);
-        getInstance().getCommand("home").setTabCompleter(new TabCompleteUtil());
-        getInstance().getCommand("hometeleport").setTabCompleter(new TabCompleteUtil());
-        getInstance().getCommand("funitem").setTabCompleter(new TabCompleteUtil());
+        getInstance().getCommand("home").setTabCompleter(new TabCompleteManager());
+        getInstance().getCommand("hometeleport").setTabCompleter(new TabCompleteManager());
+        getInstance().getCommand("funitem").setTabCompleter(new TabCompleteManager());
     }
+
     private static void loadEvent(Listener listener) {
         getInstance().getServer().getPluginManager().registerEvents(listener, getInstance());
     }
+
     public static ConfigurationSection getSection(String string) {
         return Main.getInstance().getConfig().getConfigurationSection(string);
     }
+
     public static List<String> getList(String string) {
         return Main.getInstance().getConfig().getStringList(string);
     }
@@ -49,6 +54,7 @@ public class Main extends JavaPlugin {
     public static Main getInstance() {
         return instance;
     }
+
     @Override
     public void onEnable() {
         instance = this;
@@ -100,30 +106,30 @@ public class Main extends JavaPlugin {
         //Events
         loadEvent(new PlayerJoinListener());
         loadEvent(new PlayerQuitListener());
-        loadEvent(new DeathListener());
-        loadEvent(new PlayerBedListener());
+        loadEvent(new PlayerDeathListener());
+        loadEvent(new PlayerBedManager());
         loadEvent(new PlayerItemListener());
         loadEvent(new PlayerChatListener());
         loadEvent(new EntityDamageListener());
         loadEvent(new InventoryClickListener());
-        loadEvent(new AprilFoolsListener());
+        loadEvent(new AprilFoolsManager());
         loadEvent(new PlayerInteractListener());
-        loadEvent(new AfkUtil());
+        loadEvent(new AfkManager());
         loadEvent(new PlayerMoveListener());
-        loadEvent(new PlayerTeleportEvent());
+        loadEvent(new PlayerTeleportListener());
         ChatUtil.log("Events registered successfully.");
         //Load stuff
-        HookUtil.loadHooks();
+        HookManager.loadHooks();
         AnnouncementsFile.loadAnnouncements();
         HomeIconsFile.loadIcons();
-        PlayerBedListener.resetBedData();
+        PlayerBedManager.resetBedData();
         //Timers
-        announcer = AnnouncementUtil.broadcast(this);
-        coordinates = CoordinatesUtil.task(this);
-        AfkUtil.afkTask(this);
+        announcer = AnnouncementManager.broadcast(this);
+        coordinates = CoordinatesManager.task(this);
+        AfkManager.afkTask(this);
         //Other
         for (Player p : Bukkit.getOnlinePlayers()) {
-            PlayerUtil.getRank(p);
+            PlayerManager.getRank(p);
         }
         if (debug()) {
             log("Debug is active.");

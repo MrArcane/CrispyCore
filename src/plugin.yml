@@ -1,7 +1,7 @@
 main: me.mrarcane.crispycore.Main
 name: CrispyCore
 description: The core to CrispyMiners
-version: 1.29.7
+version: 1.29.9
 depend: [Vault, GriefPrevention]
 author: MrArcane
 website: none

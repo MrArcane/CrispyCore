@@ -1,5 +1,6 @@
 package me.mrarcane.crispycore.commands;
 
+import me.mrarcane.crispycore.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -32,12 +33,13 @@ public class WildCommand implements CommandExecutor {
             int y = 0;
             int z = 0;
             Location loc = null;
+            int maxConfig = Main.getInstance().getConfig().getInt("Settings.Max wild");
             do {
                 Random r = new Random();
-                minX = -40000;
-                minZ = -40000;
-                maxX = 39999;
-                maxZ = 39999;
+                minX = 0 - maxConfig;
+                minZ = 0 - maxConfig;
+                maxX = maxConfig;
+                maxZ = maxConfig;
                 x = r.nextInt(maxX + 1 - minX) + minX;
                 z = r.nextInt(maxZ + 1 - minZ) + minZ;
                 y = w.getHighestBlockYAt(x, z) + 3;

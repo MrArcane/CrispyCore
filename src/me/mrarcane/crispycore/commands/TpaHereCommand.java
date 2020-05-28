@@ -1,7 +1,7 @@
 package me.mrarcane.crispycore.commands;
 
 import me.mrarcane.crispycore.Main;
-import me.mrarcane.crispycore.utils.PlayerUtil;
+import me.mrarcane.crispycore.managers.PlayerManager;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
@@ -23,7 +23,8 @@ import static me.mrarcane.crispycore.utils.ChatUtil.sendChat;
  **/
 public class TpaHereCommand implements CommandExecutor {
 
-    public static Map<org.bukkit.entity.Player, org.bukkit.entity.Player> tpheremap = new HashMap();
+    public static Map<org.bukkit.entity.Player, org.bukkit.entity.Player> tpheremap = new HashMap<>();
+
     public boolean onCommand(CommandSender sender, Command cmd, String value, String[] args) {
         if (sender instanceof org.bukkit.entity.Player) {
             org.bukkit.entity.Player p = (org.bukkit.entity.Player) sender;
@@ -40,7 +41,7 @@ public class TpaHereCommand implements CommandExecutor {
                 sendChat(p, String.format("&c%s is offline", args[0]));
                 return true;
             }
-            PlayerUtil td = new PlayerUtil(t.getUniqueId().toString());
+            PlayerManager td = new PlayerManager(t.getUniqueId().toString());
             if (td.getString("Player.Teleport toggle").equals("false")) {
                 sendChat(p, "&cThis player has teleporting disabled.");
                 return true;

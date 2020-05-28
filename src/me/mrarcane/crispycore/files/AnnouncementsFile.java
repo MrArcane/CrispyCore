@@ -8,7 +8,7 @@ import java.util.List;
 public class AnnouncementsFile {
 
     public static void loadAnnouncements() {
-        FileUtil file = new FileUtil(null,"Announcements");
+        FileUtil file = new FileUtil(null, "Announcements");
         List<String> list = file.getStringList("Messages");
         String msg = "&cDefault message for auto broadcast system";
         if (list.isEmpty()) {

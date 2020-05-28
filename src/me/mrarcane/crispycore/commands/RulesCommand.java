@@ -42,7 +42,7 @@ public class RulesCommand implements CommandExecutor {
                 String rule = "";
                 StringBuilder sb = new StringBuilder();
                 for (int i = 1; i < args.length; i++) {
-                   rule = String.valueOf(sb.append(args[i]).append(" "));
+                    rule = String.valueOf(sb.append(args[i]).append(" "));
                 }
                 r.add(rule);
                 Main.getInstance().getConfig().set("Rules", r);

@@ -1,6 +1,6 @@
 package me.mrarcane.crispycore.commands;
 
-import me.mrarcane.crispycore.utils.PlayerUtil;
+import me.mrarcane.crispycore.managers.PlayerManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -19,8 +19,9 @@ public class DeleteHomeCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender instanceof org.bukkit.entity.Player) {
             org.bukkit.entity.Player p = (org.bukkit.entity.Player) sender;
-            PlayerUtil pd = new PlayerUtil(p.getUniqueId().toString());
-            ConfigurationSection pSection = pd.getConfigurationSection("Player");;
+            PlayerManager pd = new PlayerManager(p.getUniqueId().toString());
+            ConfigurationSection pSection = pd.getConfigurationSection("Player");
+            ;
             ConfigurationSection hSection = pd.getConfigurationSection("Home data");
             Set<String> h = pd.getConfigurationSection("Home data").getKeys(false);
             int aHomes = 0;

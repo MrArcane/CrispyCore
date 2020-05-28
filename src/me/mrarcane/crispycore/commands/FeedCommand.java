@@ -18,8 +18,9 @@ import static me.mrarcane.crispycore.utils.ChatUtil.sendChat;
  * 6/27/2019
  **/
 public class FeedCommand implements CommandExecutor {
-    private  Random r = new Random();
+    private Random r = new Random();
     private List<String> msgs = Main.getInstance().getConfig().getStringList("Feed messages");
+
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender instanceof Player) {

@@ -1,6 +1,6 @@
 package me.mrarcane.crispycore.commands;
 
-import me.mrarcane.crispycore.utils.PlayerUtil;
+import me.mrarcane.crispycore.managers.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
@@ -27,11 +27,11 @@ public class HomeTeleportCommand implements CommandExecutor {
             }
             //TeleportCommand to players home
             OfflinePlayer t = Bukkit.getOfflinePlayer(args[0]);
-            PlayerUtil td = new PlayerUtil(t.getUniqueId().toString());
+            PlayerManager td = new PlayerManager(t.getUniqueId().toString());
             ConfigurationSection th = td.getConfigurationSection("Home data");
             ConfigurationSection home = th.getConfigurationSection(args[1].toLowerCase());
             if (home == null) {
-                sendChat(p, "&eHomes: &7"+ td.getConfigurationSection("Home data").getKeys(false).toString().replace("[", "").replace("]", "").replace(",", "&c,&7"));
+                sendChat(p, "&eHomes: &7" + td.getConfigurationSection("Home data").getKeys(false).toString().replace("[", "").replace("]", "").replace(",", "&c,&7"));
                 sendChat(p, String.format("&cHome '&7%s&c' doesn't exist.", args[1].toLowerCase()));
                 return true;
             }

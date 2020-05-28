@@ -27,7 +27,7 @@ public class SpawnCommand implements CommandExecutor {
             return true;
         }
         p.teleport(new Location(Bukkit.getWorld(s.getString("w")), s.getDouble("x"), s.getDouble("y"), s.getDouble("z")));
-        sendChat(p, "&7Teleporting..");
+        sendChat(p, "&7Teleporting to spawn..");
         return false;
     }
 }

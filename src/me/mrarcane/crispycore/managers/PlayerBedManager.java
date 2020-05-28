@@ -1,4 +1,4 @@
-package me.mrarcane.crispycore.listeners;
+package me.mrarcane.crispycore.managers;
 
 
 import me.mrarcane.crispycore.Main;
@@ -25,12 +25,12 @@ import static me.mrarcane.crispycore.utils.ChatUtil.log;
  * 1/21/2018
  **/
 
-public class PlayerBedListener implements Listener {
+public class PlayerBedManager implements Listener {
     public static ConfigurationSection bedSection = Main.getInstance().getConfig().getConfigurationSection("Night skip");
-    private static World world = Bukkit.getWorld(bedSection.getString("World"));
     public static List<Player> active = new ArrayList<>();
     public static List<Player> bed = new ArrayList<>();
     static boolean passed;
+    private static World world = Bukkit.getWorld(bedSection.getString("World"));
 
     public static void resetBedData() {
         for (Player p : Bukkit.getOnlinePlayers()) {
@@ -60,6 +60,7 @@ public class PlayerBedListener implements Listener {
             broadcast(msgs.get(r.nextInt(msgs.size())));
         }
     }
+
     //Events
     @EventHandler
     private void onBedEnter(PlayerBedEnterEvent e) {
@@ -73,8 +74,8 @@ public class PlayerBedListener implements Listener {
                 broadcast(bedSection.getString("Bed enter").replace("{player}", p.getDisplayName()).replace("{inBed}", String.valueOf(bed.size())).replace("{players}", String.valueOf(active.size())));
             }
             skipNight(p);
-            }
         }
+    }
 
     @EventHandler
     private void onBedLeave(PlayerBedLeaveEvent e) {

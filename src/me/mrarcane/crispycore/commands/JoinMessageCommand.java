@@ -1,6 +1,6 @@
 package me.mrarcane.crispycore.commands;
 
-import me.mrarcane.crispycore.utils.PlayerUtil;
+import me.mrarcane.crispycore.managers.PlayerManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -16,7 +16,7 @@ public class JoinMessageCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Player p = (Player) sender;
-        PlayerUtil user = new PlayerUtil(p.getUniqueId().toString());
+        PlayerManager user = new PlayerManager(p.getUniqueId().toString());
         String msg = "";
         for (int i = 0; i < args.length; i++) {
             msg = msg + " " + args[i];

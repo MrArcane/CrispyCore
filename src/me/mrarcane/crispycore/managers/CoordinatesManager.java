@@ -1,4 +1,4 @@
-package me.mrarcane.crispycore.utils;
+package me.mrarcane.crispycore.managers;
 
 import me.mrarcane.crispycore.Main;
 import org.bukkit.Bukkit;
@@ -10,8 +10,9 @@ import java.util.HashMap;
 
 import static me.mrarcane.crispycore.utils.ChatUtil.sendAction;
 
-public class CoordinatesUtil {
-    public static HashMap coordsMap = new HashMap<Player, Boolean>();
+public class CoordinatesManager {
+    public static HashMap<Player, Boolean> coordsMap = new HashMap<Player, Boolean>();
+
     private static String compass(Player p) {
         float y = p.getLocation().getYaw();
         if (y < 0.0f) {
@@ -19,7 +20,7 @@ public class CoordinatesUtil {
         }
         y %= 360.0f;
         String dir = "";
-        final int i = (int)((y + 8.0f) / 22.5);
+        final int i = (int) ((y + 8.0f) / 22.5);
         if (i == 4) {
             dir = "W";
         } else if (i == 5) {
@@ -57,20 +58,20 @@ public class CoordinatesUtil {
         }
         return dir;
     }
+
     public static BukkitTask task(Plugin plugin) {
-            return Bukkit.getScheduler().runTaskTimerAsynchronously(Main.getInstance(), () -> {
-                for (Player p : Bukkit.getOnlinePlayers()) {
-                    PlayerUtil pd = new PlayerUtil(p.getUniqueId().toString());
-                    int x = p.getLocation().getBlockX();
-                    int y = p.getLocation().getBlockY();
-                    int z = p.getLocation().getBlockZ();
-                    if (coordsMap.containsKey(p)) {
-                        sendAction(p, String.format("&6X: &7%s &6Y: &7%s &6Z: &7%s &6D: &7%s", x, y, z, compass(p)));
-                        if (!p.isOnline()) {
-                            Main.coordinates.cancel();
-                        }
+        return Bukkit.getScheduler().runTaskTimerAsynchronously(Main.getInstance(), () -> {
+            for (Player p : Bukkit.getOnlinePlayers()) {
+                int x = p.getLocation().getBlockX();
+                int y = p.getLocation().getBlockY();
+                int z = p.getLocation().getBlockZ();
+                if (coordsMap.containsKey(p)) {
+                    sendAction(p, String.format("&6X: &7%s &6Y: &7%s &6Z: &7%s &6D: &7%s", x, y, z, compass(p)));
+                    if (!p.isOnline()) {
+                        Main.coordinates.cancel();
                     }
                 }
-            }, 0L, 10);
-        }
+            }
+        }, 0L, 10);
+    }
 }

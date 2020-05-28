@@ -23,6 +23,7 @@ import static me.mrarcane.crispycore.utils.ChatUtil.sendChat;
 public class FunItemCommand implements CommandExecutor {
     public static ItemStack trout = new ItemStack(Material.COD);
     public static ItemMeta stickMeta;
+
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender instanceof Player) {

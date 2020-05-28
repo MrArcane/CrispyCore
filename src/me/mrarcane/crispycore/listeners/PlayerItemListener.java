@@ -1,6 +1,6 @@
 package me.mrarcane.crispycore.listeners;
 
-import me.mrarcane.crispycore.enums.ItemNames;
+import me.mrarcane.crispycore.enums.ItemNameEnum;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,7 +19,7 @@ import static me.mrarcane.crispycore.utils.ChatUtil.sendAction;
  **/
 public class PlayerItemListener implements Listener {
     private String itemName(Material type) {
-        return ItemNames.valueOf(type.toString()).firstAllUpperCased();
+        return ItemNameEnum.valueOf(type.toString()).firstAllUpperCased();
     }
 
     @EventHandler
@@ -39,6 +39,7 @@ public class PlayerItemListener implements Listener {
             }
         }
     }
+
     @EventHandler
     private void onBreak(PlayerItemBreakEvent e) {
         Player p = e.getPlayer();

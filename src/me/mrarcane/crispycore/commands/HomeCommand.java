@@ -1,6 +1,6 @@
 package me.mrarcane.crispycore.commands;
 
-import me.mrarcane.crispycore.utils.PlayerUtil;
+import me.mrarcane.crispycore.managers.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -21,7 +21,7 @@ public class HomeCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender instanceof org.bukkit.entity.Player) {
             org.bukkit.entity.Player p = (org.bukkit.entity.Player) sender;
-            PlayerUtil pd = new PlayerUtil(p.getUniqueId().toString());
+            PlayerManager pd = new PlayerManager(p.getUniqueId().toString());
             ConfigurationSection hData = pd.getConfigurationSection("Home data");
             Set<String> h = pd.getConfigurationSection("Home data").getKeys(false);
             if (h.size() == 0) { //No homes found

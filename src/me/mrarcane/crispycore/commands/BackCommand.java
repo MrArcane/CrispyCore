@@ -17,6 +17,7 @@ import static me.mrarcane.crispycore.utils.ChatUtil.sendChat;
  **/
 public class BackCommand implements CommandExecutor {
     public static HashMap<Player, Location> back = new HashMap<>();
+
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender instanceof Player) {

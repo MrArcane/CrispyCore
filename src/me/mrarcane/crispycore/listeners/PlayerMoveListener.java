@@ -14,11 +14,11 @@ import static me.mrarcane.crispycore.utils.ChatUtil.sendAction;
 public class PlayerMoveListener implements Listener {
 
     private HashMap<Player, String> inClaim = new HashMap<>();
+
     @EventHandler
     private void onPlayerMove(PlayerMoveEvent e) {
         Player p = e.getPlayer();
         Claim claim = GriefPrevention.instance.dataStore.getClaimAt(p.getLocation(), true, null);
-                //log(String.format("Added: %s in the claim map", p.getDisplayName()));
         if (claim == null) {
             if (inClaim.containsKey(p)) {
                 sendAction(p, String.format("&eLeaving &7%s's&e claim &7(&cWilderness&7)", inClaim.get(p)));

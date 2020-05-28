@@ -2,7 +2,7 @@ package me.mrarcane.crispycore.listeners;
 
 import me.mrarcane.crispycore.inventories.HomeInventory;
 import me.mrarcane.crispycore.inventories.IconsInventory;
-import me.mrarcane.crispycore.utils.PlayerUtil;
+import me.mrarcane.crispycore.managers.PlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
@@ -15,6 +15,7 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 import java.util.Set;
 
+import static me.mrarcane.crispycore.utils.ChatUtil.log;
 import static me.mrarcane.crispycore.utils.ChatUtil.sendChat;
 
 /**
@@ -25,12 +26,12 @@ public class InventoryClickListener implements Listener {
     public static HashMap<Player, String> homeMap = new HashMap<>();
 
     @EventHandler
-    public static void onClick(InventoryClickEvent e) {
+    private void onClick(InventoryClickEvent e) {
         ItemStack clicked = e.getCurrentItem();
         Player p = (Player) e.getWhoClicked();
-        PlayerUtil pd = new PlayerUtil(p.getUniqueId().toString());
-        Set<String> hdSection = pd.getConfigurationSection("Home data").getKeys(false);
         if (e.getView().getTitle().equals("Select your home icon")) {
+            PlayerManager pd = new PlayerManager(p.getUniqueId().toString());
+            log("Called inventory");
             e.setCancelled(true);
             if (clicked == null) {
                 return;
@@ -52,6 +53,8 @@ public class InventoryClickListener implements Listener {
                 new IconsInventory(p);
                 return;
             }
+            PlayerManager pd = new PlayerManager(p.getUniqueId().toString());
+            Set<String> hdSection = pd.getConfigurationSection("Home data").getKeys(false);
             for (String home : hdSection) {
                 ConfigurationSection homeData = pd.getConfigurationSection("Home data." + clicked.getItemMeta().getDisplayName());
                 double x = homeData.getDouble("x");
@@ -60,7 +63,7 @@ public class InventoryClickListener implements Listener {
                 Location loc = new Location(Bukkit.getWorld(homeData.getString("w")), x, y, z);
                 if (clicked.getItemMeta().getDisplayName().equals(home)) {
                     p.teleport(loc);
-                    sendChat(p, String.format("&6Teleporting to &7%s", clicked.getItemMeta().getDisplayName()));
+                    sendChat(p, String.format("&7Teleporting to %s", clicked.getItemMeta().getDisplayName()));
                 }
             }
         }
