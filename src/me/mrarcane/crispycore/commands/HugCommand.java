@@ -27,6 +27,10 @@ public class HugCommand implements CommandExecutor {
                 sendChat(p, String.format("&c%s is offline!", args[0]));
                 return true;
             }
+            if (p.getWorld() != t.getWorld()) {
+                sendChat(p, "&cSorry, interdimensional hugs are illegal!");
+                return true;
+            }
             if (p.getLocation().distance(t.getLocation()) > 5) {
                 sendChat(p, String.format("&c%s is too far away, you must be within 5 blocks of each other!", t.getDisplayName()));
                 return true;

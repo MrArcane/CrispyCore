@@ -28,6 +28,7 @@ public class HomeCommand implements CommandExecutor {
                 sendChat(p, "&cNo homes defined.");
                 return true;
             }
+
             if (args.length == 0) { //If homes is zero
                 if (h.size() == 1) {
                     for (String home : h) { //Loop through all the homes.
@@ -36,11 +37,17 @@ public class HomeCommand implements CommandExecutor {
                         sendChat(p, String.format("&7Teleporting to %s", home));
                     }
                     return true;
-                } else {
-                    sendChat(p, "&cUsage: /home <home>");
+                }
+                if (h.size() > 1 && hData.contains("home")) {
+                    ConfigurationSection home = pd.getConfigurationSection("Home data").getConfigurationSection("home");
+                    p.teleport(new Location(Bukkit.getWorld(home.getString("w")), home.getDouble("x"), home.getDouble("y"), home.getDouble("z")));
+                    sendChat(p,"&7Teleporting to home");
                     return true;
                 }
+                sendChat(p, "&cUsage: /home <home>");
+                return true;
             }
+
             if (args.length == 1) { //If homes is greater than zero
                 ConfigurationSection home = hData.getConfigurationSection(args[0].toLowerCase());
                 if (home == null) {
@@ -52,6 +59,7 @@ public class HomeCommand implements CommandExecutor {
                 return true;
             }
         }
+
         return false;
     }
 }

@@ -15,7 +15,6 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 import java.util.Set;
 
-import static me.mrarcane.crispycore.utils.ChatUtil.log;
 import static me.mrarcane.crispycore.utils.ChatUtil.sendChat;
 
 /**
@@ -29,9 +28,9 @@ public class InventoryClickListener implements Listener {
     private void onClick(InventoryClickEvent e) {
         ItemStack clicked = e.getCurrentItem();
         Player p = (Player) e.getWhoClicked();
+        //Home icons
         if (e.getView().getTitle().equals("Select your home icon")) {
             PlayerManager pd = new PlayerManager(p.getUniqueId().toString());
-            log("Called inventory");
             e.setCancelled(true);
             if (clicked == null) {
                 return;
@@ -43,11 +42,13 @@ public class InventoryClickListener implements Listener {
             sendChat(p, "&6Home icon set to: &7" + clicked.getItemMeta().getDisplayName());
             new HomeInventory(p);
         }
+        //Homes
         if (e.getView().getTitle().equals("Homes")) {
             e.setCancelled(true);
             if (clicked == null) {
                 return;
             }
+            //Check if right click and move to the Icons inventory
             if (e.getClick().isRightClick()) {
                 homeMap.put(p, clicked.getItemMeta().getDisplayName());
                 new IconsInventory(p);
@@ -56,15 +57,17 @@ public class InventoryClickListener implements Listener {
             PlayerManager pd = new PlayerManager(p.getUniqueId().toString());
             Set<String> hdSection = pd.getConfigurationSection("Home data").getKeys(false);
             for (String home : hdSection) {
-                ConfigurationSection homeData = pd.getConfigurationSection("Home data." + clicked.getItemMeta().getDisplayName());
+                String itemName = clicked.getItemMeta().getDisplayName();
+                ConfigurationSection homeData = pd.getConfigurationSection("Home data." + itemName);
                 double x = homeData.getDouble("x");
                 double y = homeData.getDouble("y");
                 double z = homeData.getDouble("z");
                 Location loc = new Location(Bukkit.getWorld(homeData.getString("w")), x, y, z);
-                if (clicked.getItemMeta().getDisplayName().equals(home)) {
+                if (itemName.equals(home)) {
                     p.teleport(loc);
                     sendChat(p, String.format("&7Teleporting to %s", clicked.getItemMeta().getDisplayName()));
                 }
+                
             }
         }
     }

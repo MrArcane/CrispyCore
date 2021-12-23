@@ -21,15 +21,13 @@ public class HatCommand implements CommandExecutor {
             Player p = (Player) sender;
             ItemStack head = p.getInventory().getHelmet();
             ItemStack hand = p.getInventory().getItemInMainHand();
+
             if (args.length == 0) {
                 if (p.getInventory().getItemInMainHand() == null) {
                     sendChat(p, "&cYou must be holding an item.");
                     return true;
                 }
-       /*         if (p.getInventory().getSize() >= 36) {
-                    sendChat(p, "&cSorry, your inventory is full.");
-                    return true;
-                }*/
+
                 if (head != null) {
                     Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
                         p.getInventory().setHelmet(hand);
@@ -39,11 +37,13 @@ public class HatCommand implements CommandExecutor {
                     }, 5);
                     return true;
                 }
+
                 p.getInventory().setHelmet(hand);
                 p.getInventory().removeItem(hand);
                 sendChat(p, "&eEnjoy your hat!");
                 return true;
             }
+
             sendChat(p, "&cIncorrect command, try again.");
             return true;
         }

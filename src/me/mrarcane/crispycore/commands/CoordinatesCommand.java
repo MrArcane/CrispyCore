@@ -18,11 +18,13 @@ public class CoordinatesCommand implements CommandExecutor {
             coordsMap.remove(p);
             sendChat(p, "&6Action bar coordinates disabled!");
             return true;
+
         } else {
             coordsMap.put(p, true);
             CoordinatesManager.task(Main.getInstance());
             sendChat(p, "&6Action bar coordinates enabled!");
         }
+
         return false;
     }
 }

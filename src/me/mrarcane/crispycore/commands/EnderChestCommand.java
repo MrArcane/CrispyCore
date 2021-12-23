@@ -15,8 +15,11 @@ public class EnderChestCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Player p = (Player) sender;
-        p.openInventory(p.getEnderChest());
-        sendChat(p, "&eOpening ender chest..");
+        if (args.length == 0) {
+            p.openInventory(p.getEnderChest());
+            sendChat(p, "&eOpening ender chest..");
+            return true;
+        }
         return false;
     }
 }

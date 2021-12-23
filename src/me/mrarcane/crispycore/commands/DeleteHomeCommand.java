@@ -5,6 +5,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 
 import java.util.Set;
 
@@ -18,16 +19,16 @@ public class DeleteHomeCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (sender instanceof org.bukkit.entity.Player) {
-            org.bukkit.entity.Player p = (org.bukkit.entity.Player) sender;
+            Player p = (Player) sender;
             PlayerManager pd = new PlayerManager(p.getUniqueId().toString());
-            ConfigurationSection pSection = pd.getConfigurationSection("Player");
-            ;
+            ConfigurationSection pSection = pd.getConfigurationSection("Player");;
             ConfigurationSection hSection = pd.getConfigurationSection("Home data");
             Set<String> h = pd.getConfigurationSection("Home data").getKeys(false);
             int aHomes = 0;
             if (pd.getConfigurationSection("Player").getString("Homes") != null) {
                 aHomes = Integer.parseInt(pd.getConfigurationSection("Player").getString("Homes"));
             }
+
             if (args.length != 1) {
                 if (h.size() == 1) {
                     for (String home : h) {
@@ -35,24 +36,27 @@ public class DeleteHomeCommand implements CommandExecutor {
                         aHomes--;
                         pSection.set("Homes", aHomes);
                         pd.save();
-                        sendChat(p, String.format("&7Home '&a%s&7' removed.", home.toLowerCase()));
+                        sendChat(p, String.format("&7Home '&e%s&7' deleted.", home.toLowerCase()));
                     }
                     return true;
                 }
+                //Invalid use of command
                 sendChat(p, "&cUsage: /deletehome <name>");
+                //Command success
             } else {
                 if (hSection.getConfigurationSection(args[0].toLowerCase()) != null) {
                     hSection.set(args[0].toLowerCase(), null);
                     aHomes--;
                     pSection.set("Homes", aHomes);
                     pd.save();
-                    sendChat(p, String.format("&7Home '&a%s&7' removed.", args[0].toLowerCase()));
+                    sendChat(p, String.format("&7Home '&e%s&7' deleted.", args[0].toLowerCase()));
                 } else {
                     sendChat(p, String.format("&cHome '&7%s&c' doesn't exist!", args[0].toLowerCase()));
                     return true;
                 }
             }
         }
+
         return false;
     }
 }

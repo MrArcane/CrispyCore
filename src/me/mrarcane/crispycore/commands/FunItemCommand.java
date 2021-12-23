@@ -33,6 +33,7 @@ public class FunItemCommand implements CommandExecutor {
                 sendChat(p, "&eItems: &7Stick, Trout");
                 return true;
             }
+
             if (args.length == 1) {
                 if (args[0].equalsIgnoreCase("trout")) {
                     List<String> lore = new ArrayList<>();
@@ -47,6 +48,7 @@ public class FunItemCommand implements CommandExecutor {
                     p.getInventory().addItem(trout);
                     return true;
                 }
+
                 if (args[0].equalsIgnoreCase("stick")) {
                     ItemStack stick = new ItemStack(Material.STICK);
                     List<String> lore = new ArrayList<>();
@@ -62,6 +64,7 @@ public class FunItemCommand implements CommandExecutor {
                     stickMeta = stick.getItemMeta();
                     return true;
                 }
+
                 sendChat(p, String.format("&c%s is not a correct fun item!", args[0]));
                 return true;
             }

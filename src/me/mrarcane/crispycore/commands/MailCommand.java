@@ -56,16 +56,11 @@ public class MailCommand implements CommandExecutor {
                 if (args.length <= 2) {
                     sendChat(p, "&cUsage: /mail send <player> <message>");
                     return true;
-                }
-                OfflinePlayer t = Bukkit.getOfflinePlayer(args[1]);
-                if (t.isOnline()) {
-                    getMail(p);
-                }
+                } OfflinePlayer t = Bukkit.getOfflinePlayer(args[1]);
                 if (!t.hasPlayedBefore()) {
                     sendChat(p, String.format("&cCouldn't find %s.", args[1]));
                     return true;
                 }
-                File file = new File(Main.getInstance().getDataFolder() + "/Players/", t.getUniqueId().toString() + ".yml");
                 PlayerManager td = new PlayerManager(t.getUniqueId().toString());
                 if (td.getConfigurationSection("Player") == null) {
                     td.createSection("Player");
@@ -81,6 +76,9 @@ public class MailCommand implements CommandExecutor {
                 td.getConfigurationSection("Player").set("Mail", m);
                 td.save();
                 sendChat(p, String.format("&6Message '&7%s&6' sent to &7%s", msg.trim(), t.getName()));
+                if (t.isOnline()) {
+                    getMail((Player) t);
+                }
                 return true;
             }
             if (args[0].equalsIgnoreCase("delete") || args[0].equalsIgnoreCase("del")) {
@@ -90,10 +88,19 @@ public class MailCommand implements CommandExecutor {
                 }
                 List<String> m = pd.getConfigurationSection("Player").getStringList("Mail");
                 int i = Integer.valueOf(args[1]) - 1;
+               //Need to add a check to see if a message doesn't exist, i just CBA..
                 sendChat(p, "&6Message was deleted successfully.");
                 m.remove(i);
                 pd.getConfigurationSection("Player").set("Mail", m);
                 pd.save();
+                for (int i2 = 0; i2 < m.size(); i2++) {
+                    TextComponent msg = new TextComponent(color((i2 + 1) + ". " + m.get(i2).trim()));
+                    TextComponent a = new TextComponent(color(" &7[&cDelete&7]"));
+                    a.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/mail delete " + (i2 + 1)));
+                    a.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(color("&6Click to delete message")).create()));
+                    msg.addExtra(a);
+                    p.spigot().sendMessage(msg);
+                }
                 return true;
             }
             if (args[0].equalsIgnoreCase("clear")) {

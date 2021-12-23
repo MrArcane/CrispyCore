@@ -20,13 +20,13 @@ public class TpaDenyCommand implements CommandExecutor {
             Player p = (Player) sender;
             if (tpheremap.containsKey(p)) {
                 sendChat(tpheremap.get(p), "&cTeleport request denied.");
-                sendChat(p, "&aTeleport request denied.");
+                sendChat(p, "&eTeleport request denied.");
                 tpheremap.remove(p);
                 return true;
             }
             if (tpmap.containsKey(p)) {
                 sendChat(tpmap.get(p), "&cTeleport request denied.");
-                sendChat(p, "&aTeleport request denied.");
+                sendChat(p, "&eTeleport request denied.");
                 tpmap.remove(p);
                 return true;
             }

@@ -1,5 +1,6 @@
 package me.mrarcane.crispycore.commands;
 
+import me.mrarcane.crispycore.managers.PlayerManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,8 +19,11 @@ public class SuicideCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         Player p = (Player) sender;
+        PlayerManager pm = new PlayerManager(p.getUniqueId().toString());
         suicide.put(p, true);
         p.setHealth(0);
+        pm.set("Player.Suicides", pm.getInt("Player.Suicides") + 1);
+        pm.save();
         return false;
     }
 }

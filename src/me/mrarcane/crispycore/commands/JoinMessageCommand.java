@@ -18,8 +18,16 @@ public class JoinMessageCommand implements CommandExecutor {
         Player p = (Player) sender;
         PlayerManager user = new PlayerManager(p.getUniqueId().toString());
         String msg = "";
-        for (int i = 0; i < args.length; i++) {
-            msg = msg + " " + args[i];
+        for (String arg : args) {
+            msg = msg + " " + arg;
+        }
+        if (!msg.contains(p.getDisplayName())) {
+            sendChat(p, "&cYou must add your username to the join message!");
+            return true;
+        }
+        if (msg.length() < 15) {
+            sendChat(p, "&cJoin message must have at least &715 &ccharacters!");
+            return true;
         }
         if (msg.length() >= 121) {
             sendChat(p, "&cJoin message can only allow 120 characters!");

@@ -10,6 +10,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,16 +24,16 @@ import static me.mrarcane.crispycore.utils.ChatUtil.sendChat;
  **/
 public class TpaHereCommand implements CommandExecutor {
 
-    public static Map<org.bukkit.entity.Player, org.bukkit.entity.Player> tpheremap = new HashMap<>();
+    public static Map<Player, Player> tpheremap = new HashMap<>();
 
     public boolean onCommand(CommandSender sender, Command cmd, String value, String[] args) {
-        if (sender instanceof org.bukkit.entity.Player) {
-            org.bukkit.entity.Player p = (org.bukkit.entity.Player) sender;
+        if (sender instanceof Player) {
+            Player p = (Player) sender;
             if (args.length == 0) {
-                sender.sendMessage(color("&7Usage: &c/tpahere <player>"));
+                sender.sendMessage(color("&cUsage: /tpahere <player>"));
                 return false;
             }
-            org.bukkit.entity.Player t = Bukkit.getPlayer(args[0]);
+            Player t = Bukkit.getPlayer(args[0]);
             if (p == t) {
                 sendChat(p, "&cYou can't teleport to yourself!");
                 return true;
@@ -46,19 +47,26 @@ public class TpaHereCommand implements CommandExecutor {
                 sendChat(p, "&cThis player has teleporting disabled.");
                 return true;
             }
-            TextComponent msg = new TextComponent(color(String.format("&7%s &ais requesting you to teleport to them. ", p.getDisplayName())));
-            TextComponent a = new TextComponent(color("&7[Accept] &aor &7"));
-            TextComponent d = new TextComponent(color("&7[Deny]"));
-            a.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpaccept"));
-            a.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Click to accept!").create()));
-            d.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpadeny"));
-            d.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Click to deny!").create()));
-            msg.addExtra(a);
-            msg.addExtra(d);
+            //Create the message
+            TextComponent request = new TextComponent(color(String.format("&7%s &ehas requested you to teleport to them. ", p.getName())));
+            TextComponent accept = new TextComponent(color("&7[&a✔&7]"));
+            TextComponent space = new TextComponent(" ");
+            TextComponent deny = new TextComponent(color("&7[&4✖&7]"));
+            TextComponent expire = new TextComponent(color("\n&7The request expires in 30 seconds."));
+            //Events
+            accept.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpaccept"));
+            deny.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpadeny"));
+            accept.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Click to accept the teleport!").create()));
+            deny.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Click to deny the teleport!").create()));
+            //Add to the message
+            request.addExtra(accept);
+            request.addExtra(space);
+            request.addExtra(deny);
+            request.addExtra(expire);
             tpheremap.put(t, p);
-            sendChat(p, String.format("&aRequesting to teleport &7%s &ato your location", t.getName()));
-            t.spigot().sendMessage(msg);
-            sendChat(t, "&aYou can disable this functionality by typing &7/tpa toggle");
+            sendChat(p, String.format("&eRequesting to teleport &7%s &eto your location", t.getName()));
+            t.spigot().sendMessage(request);
+            sendChat(t, "&cYou can disable this functionality by typing &7/tpa toggle");
             //Timer to cancel request
             Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {
                 tpheremap.remove(t);

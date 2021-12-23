@@ -4,7 +4,6 @@ import me.mrarcane.crispycore.Main;
 import me.mrarcane.crispycore.utils.ChatUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Particle;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -25,7 +24,7 @@ import static me.mrarcane.crispycore.utils.ChatUtil.*;
  * 3/15/2019
  **/
 public class AfkManager implements Listener {
-    public static HashMap<Player, Particle> afk = new HashMap<>();
+    public static HashMap<Player, String> afk = new HashMap<>();
     public static HashMap<Player, Location> afkLoc = new HashMap<>();
     public static HashMap<Player, Integer> afkMinutes = new HashMap<>();
 
@@ -97,15 +96,15 @@ public class AfkManager implements Listener {
             return;
         }
         if (!afk.containsKey(p)) {
-            afk.put(p, Particle.BARRIER);
+            afk.put(p, "AFK");
             p.setSleepingIgnored(true);
             broadcast(String.format("&7%s &eis now AFK!", p.getDisplayName()));
             p.setPlayerListName(color(String.format("&4[AFK] %s", p.getDisplayName())));
             if (active.contains(p)) {
                 active.remove(p);
                 if (bed.size() >= 1) {
-                    broadcast(bedSection.getString("Vote change").replace("{player}", p.getDisplayName()).replace("{inBed}", String.valueOf(bed.size())).replace("{players}", String.valueOf(active.size())).replace("{reason}", "went afk"));
-                    skipNight(p);
+                    broadcast(bedSection.getString("Vote change").replace("{player}", p.getDisplayName()).replace("{inBed}", String.valueOf(bed.size())).replace("{players}", String.valueOf(active.size())).replace("{reason}", "went AFK"));
+                    skipNight();
                 }
                 if (debug()) {
                     ChatUtil.log(String.format("%s removed from the active list [Afk].", p.getDisplayName()));
@@ -120,13 +119,13 @@ public class AfkManager implements Listener {
             afkLoc.remove(p);
             resetTime(p);
             p.setSleepingIgnored(false);
-            PlayerManager.getRank(p);
+            PlayerManager.getGroup(p);
             broadcast(String.format("&7%s &eis no longer AFK!", p.getDisplayName()));
             if (!active.contains(p)) {
                 active.add(p);
                 if (bed.size() >= 1) {
-                    broadcast(bedSection.getString("Vote change").replace("{player}", p.getDisplayName()).replace("{inBed}", String.valueOf(bed.size())).replace("{players}", String.valueOf(active.size())).replace("{reason}", "no longer afk"));
-                    skipNight(p);
+                    broadcast(bedSection.getString("Vote change").replace("{player}", p.getDisplayName()).replace("{inBed}", String.valueOf(bed.size())).replace("{players}", String.valueOf(active.size())).replace("{reason}", "no longer AFK"));
+                    skipNight();
                 }
                 if (debug()) {
                     ChatUtil.log(String.format("%s added to the active list [Afk].", p.getDisplayName()));

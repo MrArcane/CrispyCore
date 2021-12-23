@@ -18,6 +18,7 @@ public class BroadcastCommand implements CommandExecutor {
         for (int i = 0; i < args.length; i++) {
             msg = msg + args[i] + " ";
         }
+
         broadcast(msg);
         return false;
     }

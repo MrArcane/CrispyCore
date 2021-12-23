@@ -1,9 +1,12 @@
 package me.mrarcane.crispycore.listeners;
 
 import me.mrarcane.crispycore.Main;
+import me.mrarcane.crispycore.commands.ConsentCommand;
+import me.mrarcane.crispycore.managers.PlayerManager;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -27,6 +30,28 @@ import static me.mrarcane.crispycore.utils.ChatUtil.*;
  **/
 public class EntityDamageListener implements Listener {
 
+    @EventHandler
+    private void pvpToggle(EntityDamageByEntityEvent e) {
+        Entity damager = e.getDamager();
+        if (damager instanceof Player && e.getEntity() instanceof Player) {
+            Player damaged = (Player) e.getEntity();
+            PlayerManager vpm = new PlayerManager(damaged.getUniqueId().toString());
+            PlayerManager dpm = new PlayerManager(damager.getUniqueId().toString());
+            boolean vConsent = vpm.getBoolean("Player.Pvp consent");
+            boolean dConsent = dpm.getBoolean("Player.Pvp consent");
+            if (!ConsentCommand.bypassConsentMap.containsKey(damager)) {
+                if (!dConsent && vConsent) {
+                    sendChat(damager, "&cYou must consent to PVP to be able to damage players. Type &e/consent");
+                    e.setCancelled(true);
+                    return;
+                }
+                if (!vConsent) {
+                    sendChat(damager, "&cThis player doesn't consent to PVP!");
+                    e.setCancelled(true);
+                }
+            }
+        }
+    }
     @EventHandler
     private void onDamage(EntityDamageByEntityEvent e) {
         ConfigurationSection cfg = Main.getInstance().getConfig();

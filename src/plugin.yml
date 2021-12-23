@@ -1,13 +1,33 @@
 main: me.mrarcane.crispycore.Main
 name: CrispyCore
 description: The core to CrispyMiners
-version: 1.29.9
-depend: [Vault, GriefPrevention]
+version: 1.43
+depend: [Vault, GriefPrevention, PlaceholderAPI]
 author: MrArcane
 website: none
-api-version: 1.15
+api-version: 1.16
 
 commands:
+  prefix:
+    description: Set a players prefix
+    permission: crispycore.prefix
+  consent:
+    description: Give other players consent to damage you
+    permission: crispycore.consent
+  ping:
+    description: Check your ping
+  socialspy:
+    description: spy on players chats
+    permission: crispycore.socialspy
+    aliases: [ss]
+  reply:
+    description: reply to a player
+    permission: crispycore.message
+    aliases: [r]
+  message:
+    description: send a private message to another player
+    permission: crispycore.message
+    aliases: [msg, pm]
   coordinates:
     description: Show your actionbar coordinates
     aliases: [coords]
@@ -20,6 +40,7 @@ commands:
   wild:
     description: teleports you to wild
     permission: crispycore.wild
+    aliases: [rtp]
   top:
     description: Teleport yourself to the top.
     permission: crispycore.top

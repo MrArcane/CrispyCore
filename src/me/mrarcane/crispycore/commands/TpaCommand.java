@@ -26,19 +26,19 @@ public class TpaCommand implements CommandExecutor {
             Player p = (Player) sender;
             PlayerManager pd = new PlayerManager(p.getUniqueId().toString());
             if (args.length == 0) {
-                sender.sendMessage(color("&7Usage: &c/tpa <player>"));
+                sendChat(p, "&cUsage: /tpa player");
                 return false;
             }
             if (args[0].equalsIgnoreCase("toggle")) {
                 if (pd.getString("Player.Teleport toggle").equals("false")) {
                     pd.set("Player.Teleport toggle", true);
                     pd.save();
-                    sendChat(p, "&aYou enabled tpa.");
+                    sendChat(p, "&eYou enabled tpa.");
                     return true;
                 }
                 pd.set("Player.Teleport toggle", false);
                 pd.save();
-                sendChat(p, "&cYou disabled tpa.");
+                sendChat(p, "&eYou disabled tpa.");
                 return true;
             }
             Player t = Bukkit.getPlayer(args[0]);
@@ -55,18 +55,25 @@ public class TpaCommand implements CommandExecutor {
                 sendChat(p, "&cYou can't teleport to this player.");
                 return true;
             }
-            TextComponent msg = new TextComponent(color(String.format("&7%s &ais requesting to teleport to you. ", p.getDisplayName())));
-            TextComponent a = new TextComponent(color("&7[Accept] &aor &7"));
-            TextComponent d = new TextComponent(color("&7[Deny]"));
-            a.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpaccept"));
-            a.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Click to accept!").create()));
-            d.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpadeny"));
-            d.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Click to deny!").create()));
-            msg.addExtra(a);
-            msg.addExtra(d);
+            //Create the message
+            TextComponent request = new TextComponent(color(String.format("&7%s &ehas requested to teleport to you. ", p.getName())));
+            TextComponent accept = new TextComponent(color("&7[&a✔&7]"));
+            TextComponent space = new TextComponent(" ");
+            TextComponent deny = new TextComponent(color("&7[&4✖&7]"));
+            TextComponent expire = new TextComponent(color("\n&7The request expires in 30 seconds."));
+            //Events
+            accept.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpaccept"));
+            deny.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/tpadeny"));
+            accept.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Click to accept the teleport!").create()));
+            deny.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder("Click to deny the teleport!").create()));
+            //Add to the message
+            request.addExtra(accept);
+            request.addExtra(space);
+            request.addExtra(deny);
+            request.addExtra(expire);
             tpmap.put(t, p);
             sendChat(p, String.format("&aRequesting to teleport to &7%s", t.getName()));
-            t.spigot().sendMessage(msg);
+            t.spigot().sendMessage(request);
             sendChat(t, "&aYou can disable this functionality by typing &7/tpa toggle");
             //Timer to cancel request
             Bukkit.getScheduler().scheduleSyncDelayedTask(Main.getInstance(), () -> {

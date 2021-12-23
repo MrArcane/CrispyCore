@@ -33,7 +33,7 @@ public class TpaAcceptCommand implements CommandExecutor {
                 }
                 tpmap.get(p).teleport(p);
                 sendChat(tpmap.get(p), String.format("&aYou teleported to &7%s.", p.getName()));
-                sendChat(p, String.format("&7%s &ahas teleported to your location.", tpmap.get(p).getName()));
+                sendChat(p, String.format("&7%s &ahas teleported to you.", tpmap.get(p).getName()));
                 tpmap.remove(p);
                 return true;
             }

@@ -34,7 +34,7 @@ public class TeleportCommand implements CommandExecutor {
                     return true;
                 }
                 p.teleport(t);
-                sendChat(sender, String.format("Teleported to %s", t.getName()));
+                sendChat(sender, String.format("&7Teleported to &e%s", t.getName()));
                 return true;
             }
             if (args.length >= 4) {
@@ -49,7 +49,7 @@ public class TeleportCommand implements CommandExecutor {
             double Y = (Integer.parseInt(args[1]));
             double Z = (Integer.parseInt(args[2]));
             Location loc = new Location(p.getWorld(), X, Y, Z);
-            sendChat(sender, String.format("Teleported to X: %s Y: %s Z: %s", X, Y, Z));
+            sendChat(sender, String.format("&7Teleported to X: &e%s &7Y: &e%s &7Z: &e%s", X, Y, Z));
             p.teleport(loc);
             return true;
         }

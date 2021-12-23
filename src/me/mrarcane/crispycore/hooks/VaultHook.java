@@ -19,8 +19,8 @@ public class VaultHook {
         setupChat();
         setupEconomy();
         for (String groups : VaultHook.chat.getGroups()) {
-            if (!Main.getSection("Ranks").contains(groups)) {
-                log(String.format("Group %s is not in the Ranks section in the config!", groups));
+            if (!Main.getSection("Groups").contains(groups)) {
+                log(String.format("Group %s is not in the Groups section in the config!", groups));
             }
         }
     }

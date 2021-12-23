@@ -2,17 +2,21 @@ package me.mrarcane.crispycore.listeners;
 
 import me.mrarcane.crispycore.Main;
 import me.mrarcane.crispycore.managers.PlayerManager;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerQuitEvent;
 
 import java.io.File;
 
+import static me.mrarcane.crispycore.commands.ConsentCommand.bypassConsentMap;
+import static me.mrarcane.crispycore.commands.ConsentCommand.consentMap;
+import static me.mrarcane.crispycore.commands.MessageCommand.pmMap;
 import static me.mrarcane.crispycore.commands.TpaCommand.tpmap;
 import static me.mrarcane.crispycore.commands.TpaHereCommand.tpheremap;
+import static me.mrarcane.crispycore.listeners.PlayerJoinListener.prefixMap;
 import static me.mrarcane.crispycore.managers.CoordinatesManager.coordsMap;
 import static me.mrarcane.crispycore.utils.ChatUtil.color;
 import static me.mrarcane.crispycore.utils.ChatUtil.log;
@@ -24,19 +28,9 @@ import static me.mrarcane.crispycore.utils.ChatUtil.log;
 public class PlayerQuitListener implements Listener {
 
     @EventHandler
-    private void onQuit(final org.bukkit.event.player.PlayerQuitEvent e) {
-        org.bukkit.entity.Player p = e.getPlayer();
+    private void onQuit(final PlayerQuitEvent e) {
+        Player p = e.getPlayer();
         PlayerManager pd = new PlayerManager(p.getUniqueId().toString());
-        File data = new File(Main.getInstance().getDataFolder() + "/Players/", p.getUniqueId() + ".yml");
-        World w = Bukkit.getWorld("world");
-        if (!data.exists()) {
-            pd.createSection("Player");
-            ConfigurationSection pSection = pd.getConfigurationSection("Player");
-            ;
-            pSection.set("Max homes", 1);
-            pSection.set("Homes", 0);
-            pd.save();
-        }
         Location loc = p.getLocation();
         ConfigurationSection pFile = pd.getConfigurationSection("Player");
         pFile.set("Time", System.currentTimeMillis());
@@ -46,12 +40,12 @@ public class PlayerQuitListener implements Listener {
         pFile.set("world", loc.getWorld().getName());
         pd.save();
         e.setQuitMessage(color(String.format("&e%s &ehas left the building.", p.getDisplayName())));
-        if (tpmap.containsKey(p)) {
-            tpmap.remove(p);
-        }
-        if (tpheremap.containsKey(p)) {
-            tpheremap.remove(p);
-        }
+        bypassConsentMap.remove(p);
+        prefixMap.remove(p);
+        tpmap.remove(p);
+        tpheremap.remove(p);
+        pmMap.remove(p);
+        consentMap.remove(p);
         if (coordsMap.containsKey(p)) {
             coordsMap.remove(p);
             if (Main.debug()) {

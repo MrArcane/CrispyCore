@@ -25,6 +25,7 @@ public class HomeTeleportCommand implements CommandExecutor {
                 sendChat(p, "&cUsage: /hometeleport <player> <home>");
                 return true;
             }
+
             //TeleportCommand to players home
             OfflinePlayer t = Bukkit.getOfflinePlayer(args[0]);
             PlayerManager td = new PlayerManager(t.getUniqueId().toString());

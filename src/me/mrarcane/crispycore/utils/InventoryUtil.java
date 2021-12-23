@@ -16,7 +16,7 @@ public class InventoryUtil {
     private Inventory inventory;
 
     public InventoryUtil(Player player, String name, int size) {
-        this.inventory = Bukkit.createInventory(player, size, color(name));
+        this.inventory = Bukkit.createInventory(player, size, name);
     }
 
     public void createItem(Material material, String name, String... lore) {
@@ -26,7 +26,7 @@ public class InventoryUtil {
         }
         ItemStack i = new ItemStack(material);
         ItemMeta im = i.getItemMeta();
-        im.setDisplayName(color(name));
+        im.setDisplayName(name);
         im.setLore(loreList);
         i.setItemMeta(im);
         inventory.addItem(i);

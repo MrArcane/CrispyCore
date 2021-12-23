@@ -22,64 +22,77 @@ public class GamemodeCommand implements CommandExecutor {
                 sendChat(sender, "&cUsage: /gamemode set <PLAYER> <MODE>");
                 return true;
             }
+
             Player p = Bukkit.getPlayer(args[1]);
             if (p == null) {
                 sendChat(sender, String.format("&7%s &cwas not found!", args[1]));
                 return true;
             }
+
             if (args[2].equalsIgnoreCase("survival") || args[2].equalsIgnoreCase("0") && sender.hasPermission("crispycore.gamemode.survival")) {
                 p.setGameMode(GameMode.SURVIVAL);
                 sendChat(sender, String.format("&eGamemode &7SURVIVAL &eset for &7%s!", p.getName()));
                 return true;
             }
+
             if (args[2].equalsIgnoreCase("creative") || args[2].equalsIgnoreCase("1") && sender.hasPermission("crispycore.gamemode.creative")) {
                 p.setGameMode(GameMode.CREATIVE);
                 sendChat(sender, String.format("&eGamemode &7CREATIVE &eset for &7%s!", p.getName()));
                 return true;
             }
+
             if (args[2].equalsIgnoreCase("spectator") || args[2].equalsIgnoreCase("3") && sender.hasPermission("crispycore.gamemode.spectator")) {
                 p.setGameMode(GameMode.SPECTATOR);
                 sendChat(sender, String.format("&eGamemode &7SPECTATOR &eset for &7%s!", p.getName()));
                 return true;
             }
+
             if (args[2].equalsIgnoreCase("adventure") || args[2].equalsIgnoreCase("2") && sender.hasPermission("crispycore.gamemode.adventure")) {
                 p.setGameMode(GameMode.ADVENTURE);
                 sendChat(sender, String.format("&eGamemode &7ADVENTURE &eset for &7%s!", p.getName()));
                 return true;
             }
+
             sendChat(p, String.format("&cGamemode &7%s &cnot found!", args[2]));
             return true;
         }
+
         if (sender instanceof Player) {
             Player p = (Player) sender;
             if (args.length == 0) {
                 sendChat(p, "&cUsage: /gamemode <MODE>");
                 return true;
             }
+
             if (args[0].equalsIgnoreCase("0") || args[0].equalsIgnoreCase("survival") || args[0].equalsIgnoreCase("s")) {
                 p.setGameMode(GameMode.SURVIVAL);
                 sendChat(p, "&eGamemode switched to &7SURVIVAL.");
                 return true;
             }
+
             if (args[0].equalsIgnoreCase("1") || args[0].equalsIgnoreCase("creative") || args[0].equalsIgnoreCase("c")) {
                 p.setGameMode(GameMode.CREATIVE);
                 sendChat(p, "&eGamemode switched to &7CREATIVE.");
                 return true;
             }
+
             if (args[0].equalsIgnoreCase("3") || args[0].equalsIgnoreCase("spectator") || args[0].equalsIgnoreCase("sp")) {
                 p.setGameMode(GameMode.SPECTATOR);
                 sendChat(p, "&eGamemode switched to &7SPECTATOR.");
                 return true;
             }
+
             if (args[0].equalsIgnoreCase("2") || args[0].equalsIgnoreCase("adventure") || args[0].equalsIgnoreCase("a")) {
                 p.setGameMode(GameMode.ADVENTURE);
                 sendChat(p, "&eGamemode switched to &7ADVENTURE.");
                 return true;
             }
+
             if (args.length > 0 && p.hasPermission("crispycore.gamemode.set")) {
                 sendChat(p, "&cUsage: /gamemode set <PLAYER> <MODE>");
                 return true;
             }
+
             sendChat(p, String.format("&cGamemode &7%s &cnot found!", args[0]));
             return true;
         }

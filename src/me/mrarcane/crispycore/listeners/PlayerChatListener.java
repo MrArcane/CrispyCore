@@ -1,15 +1,29 @@
 package me.mrarcane.crispycore.listeners;
 
 import me.mrarcane.crispycore.Main;
+import me.mrarcane.crispycore.hooks.VaultHook;
+import me.mrarcane.crispycore.managers.PlayerManager;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import static me.mrarcane.crispycore.listeners.PlayerJoinListener.prefixMap;
+import static me.mrarcane.crispycore.utils.ChatUtil.color;
 import static me.mrarcane.crispycore.utils.ChatUtil.sendChat;
 
 /**
@@ -19,20 +33,99 @@ import static me.mrarcane.crispycore.utils.ChatUtil.sendChat;
 public class PlayerChatListener implements Listener {
 
     @EventHandler
-    private void onChat(AsyncPlayerChatEvent e) {
-        String msg = e.getMessage().toLowerCase();
-        String nmsg;
+    private void commandLog(PlayerCommandPreprocessEvent e) {
+        Player p = e.getPlayer();
+        Date now = new Date();
+        try {
+            File chatLog = new File(Main.getInstance().getDataFolder() + File.separator + "Logs", "Commands.txt");
+            if (!chatLog.exists()) {
+                chatLog.getParentFile().mkdir();
+                chatLog.createNewFile();
+            }
+            String log = String.format("[%s] %s: %s", now, p.getName(), e.getMessage());
+            chatLog.setWritable(true);
+            BufferedWriter bw = new BufferedWriter(new FileWriter(chatLog, true));
+            bw.newLine();
+            bw.write(log);
+            bw.flush();
+            bw.close();
+        } catch (IOException f) {
+            f.printStackTrace();
+        }
+    }
+    @EventHandler
+    private void chatLog(AsyncPlayerChatEvent e) {
+        Player p = e.getPlayer();
+        Date now = new Date();
+        String log = String.format("[%s] %s: %s", now, p.getName(), e.getMessage());
+        try {
+            File chatLog = new File(Main.getInstance().getDataFolder() + File.separator + "Logs","Chat.txt");
+            if (!chatLog.exists()) {
+                chatLog.getParentFile().mkdir();
+                chatLog.createNewFile();
+            }
+            chatLog.setWritable(true);
+            BufferedWriter bw = new BufferedWriter(new FileWriter(chatLog, true));
+            bw.newLine();
+            bw.write(log);
+            bw.flush();
+            bw.close();
+        } catch (IOException f) {
+            f.printStackTrace();
+        }
+    }
+    @EventHandler
+    private void playerMute(AsyncPlayerChatEvent e) {
+        Player p = e.getPlayer();
+        PlayerManager pm = new PlayerManager(p.getUniqueId().toString());
+        if (pm.getBoolean("Player.Muted")) {
+            e.setCancelled(true);
+            sendChat(p, "&cYou are muted, you can't speak in chat!");
+        }
+    }
+    @EventHandler
+    private void chatReplacement(AsyncPlayerChatEvent e) {
+        String oldMsg = e.getMessage();
+        Set<String> wordSection = Main.getInstance().getConfig().getConfigurationSection("Chat replacement").getKeys(false);
         Random r = new Random();
-        List<String> words = Main.getInstance().getConfig().getStringList("Chat replacement.Words");
-        List<String> list = Main.getInstance().getConfig().getStringList("Chat replacement.List");
-        for (String w : words) {
-            if (msg.contains(w)) {
-                nmsg = msg.replace(w, list.get(r.nextInt(list.size())));
-                e.setMessage(nmsg);
+        Player p = e.getPlayer();
+        if (Main.debug()) {
+            sendChat(p, String.format("Scanning through words: %s", wordSection));
+        }
+        for (String word : wordSection) {
+            List<String> newWord = Main.getInstance().getConfig().getStringList("Chat replacement." + word);
+            if (oldMsg.toLowerCase().contains(word)) {
+                if (Main.debug()) {
+                    sendChat(p, String.format("Word: %s, possible replacements: %d", word, newWord.size()));
+                }
+                Pattern pattern = Pattern.compile(word, Pattern.CASE_INSENSITIVE);
+                Matcher match = pattern.matcher(oldMsg);
+                while (match.find()) {
+                    String s = oldMsg.substring(match.start(), match.end());
+                    oldMsg = oldMsg.replace(s, newWord.get(r.nextInt(newWord.size())).trim());
+                    match = pattern.matcher(oldMsg);
+                }
+            }
+            if (p.hasPermission("crispycore.colorize")) {
+                e.setMessage(color(oldMsg).replace("%", "%%"));
+            } else {
+                e.setMessage(oldMsg.replace("%", "%%"));
             }
         }
     }
+    @EventHandler(priority = EventPriority.HIGHEST)
+    private void chatFormatter(AsyncPlayerChatEvent e) {
+        Player p = e.getPlayer();
+        ConfigurationSection groupsSection = Main.getSection("Groups");
+        String rank = VaultHook.permission.getPrimaryGroup(p);
+        String format = color(groupsSection.getConfigurationSection(rank).getString("Chat format")).replace("{player}", color(p.getDisplayName())) + color("&7" + e.getMessage());
+        if (prefixMap.containsKey(p)) {
+            e.setFormat(color(prefixMap.get(p)) + " " + format);
+            return;
+        }
+        e.setFormat(format);
 
+    }
     public boolean isDisabled(String cmd) {
         switch (cmd.toLowerCase()) {
             case "/version":

@@ -10,8 +10,7 @@ import org.bukkit.entity.Player;
 import java.util.Objects;
 import java.util.Set;
 
-import static me.mrarcane.crispycore.utils.ChatUtil.log;
-import static me.mrarcane.crispycore.utils.ChatUtil.sendChat;
+import static me.mrarcane.crispycore.utils.ChatUtil.*;
 
 public class HomeInventory {
     int lines = 0;

@@ -27,7 +27,6 @@ public class AnnouncementManager {
         Random r = new Random();
         return Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, () -> {
             if (Bukkit.getOnlinePlayers().size() < 1) { //Be smart and shut her down :)
-                log("There are no players online, shutting down broadcaster to reduce console spam.");
                 announcer.cancel();
                 return;
             }
@@ -36,7 +35,7 @@ public class AnnouncementManager {
                 return;
             }
             for (Player p : Bukkit.getOnlinePlayers()) {
-                sendChat(p, msgs.get(r.nextInt(msgs.size())));
+                sendChat(p, msgs.get(r.nextInt(msgs.size())).replace("{player}", p.getDisplayName()));
             }
         }, time, time);
     }

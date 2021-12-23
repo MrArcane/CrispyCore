@@ -21,6 +21,7 @@ public class FlyCommand implements CommandExecutor {
             sendChat(p, "&eYou are no longer flying!");
             return true;
         }
+
         p.setAllowFlight(true);
         p.setFlying(true);
         sendChat(p, "&eYou are now flying!");

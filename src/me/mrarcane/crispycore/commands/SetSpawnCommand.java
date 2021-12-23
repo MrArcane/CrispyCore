@@ -30,7 +30,7 @@ public class SetSpawnCommand implements CommandExecutor {
                 cfg.getConfigurationSection("Spawn").set("z", loc.getZ());
                 cfg.getConfigurationSection("Spawn").set("w", loc.getWorld().getName());
                 Main.getInstance().saveConfig();
-                sendChat(sender, "&aSpawn point set at your location!");
+                sendChat(sender, "&eSpawn point set at your location!");
                 return true;
             }
             return true;

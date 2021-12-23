@@ -1,13 +1,19 @@
 package me.mrarcane.crispycore;
 
 import me.mrarcane.crispycore.commands.*;
+import me.mrarcane.crispycore.completes.FunItemComplete;
+import me.mrarcane.crispycore.completes.GamemodeComplete;
+import me.mrarcane.crispycore.completes.HomeComplete;
+import me.mrarcane.crispycore.completes.HomeTeleportComplete;
 import me.mrarcane.crispycore.files.AnnouncementsFile;
 import me.mrarcane.crispycore.files.HomeIconsFile;
+import me.mrarcane.crispycore.files.MotdFile;
 import me.mrarcane.crispycore.listeners.*;
 import me.mrarcane.crispycore.managers.*;
 import me.mrarcane.crispycore.utils.ChatUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -16,6 +22,7 @@ import org.bukkit.scheduler.BukkitTask;
 
 import java.util.List;
 
+import static me.mrarcane.crispycore.listeners.PlayerJoinListener.prefixMap;
 import static me.mrarcane.crispycore.utils.ChatUtil.log;
 
 /**
@@ -34,9 +41,9 @@ public class Main extends JavaPlugin {
 
     private static void loadCmd(String cmd, CommandExecutor executor) {
         getInstance().getServer().getPluginCommand(cmd).setExecutor(executor);
-        getInstance().getCommand("home").setTabCompleter(new TabCompleteManager());
-        getInstance().getCommand("hometeleport").setTabCompleter(new TabCompleteManager());
-        getInstance().getCommand("funitem").setTabCompleter(new TabCompleteManager());
+    }
+    private void getComplete(String command, TabCompleter tabCompleter) {
+        getInstance().getCommand(command).setTabCompleter(tabCompleter);
     }
 
     private static void loadEvent(Listener listener) {
@@ -60,6 +67,7 @@ public class Main extends JavaPlugin {
         instance = this;
         this.saveDefaultConfig();
         //Commands
+        loadCmd("ping", new PingCommand());
         loadCmd("suicide", new SuicideCommand());
         loadCmd("links", new LinksCommand());
         loadCmd("fly", new FlyCommand());
@@ -102,8 +110,21 @@ public class Main extends JavaPlugin {
         loadCmd("joinmessage", new JoinMessageCommand());
         loadCmd("hug", new HugCommand());
         loadCmd("coordinates", new CoordinatesCommand());
+        loadCmd("message", new MessageCommand());
+        loadCmd("reply", new ReplyCommand());
+        loadCmd("socialspy", new SocialSpyCommand());
+        loadCmd("consent", new ConsentCommand());
+        loadCmd("prefix", new PrefixCommand());
+        //loadCmd("mute", new MuteCommand());
+        //loadCmd("unmute", new UnmuteCommand());
         ChatUtil.log(String.format("%s commands registered successfully", this.getDescription().getCommands().size()));
+        //Completes
+        getComplete("home", new HomeComplete());
+        getComplete("hometeleport", new HomeTeleportComplete());
+        getComplete("funitem", new FunItemComplete());
+        getComplete("gamemode", new GamemodeComplete());
         //Events
+        loadEvent(new AnvilListener());
         loadEvent(new PlayerJoinListener());
         loadEvent(new PlayerQuitListener());
         loadEvent(new PlayerDeathListener());
@@ -122,6 +143,7 @@ public class Main extends JavaPlugin {
         HookManager.loadHooks();
         AnnouncementsFile.loadAnnouncements();
         HomeIconsFile.loadIcons();
+        MotdFile.loadMotd();
         PlayerBedManager.resetBedData();
         //Timers
         announcer = AnnouncementManager.broadcast(this);
@@ -129,12 +151,16 @@ public class Main extends JavaPlugin {
         AfkManager.afkTask(this);
         //Other
         for (Player p : Bukkit.getOnlinePlayers()) {
-            PlayerManager.getRank(p);
+            PlayerManager.getGroup(p);
+            PlayerManager pm = new PlayerManager(p.getUniqueId().toString());
+            if (pm.contains("Player.Prefix")) {
+                prefixMap.put(p, pm.getString("Player.Prefix"));
+            }
         }
         if (debug()) {
             log("Debug is active.");
         } else {
-            log("If problems happen please turn on the debugger with /crispycore debug.");
+            log("If problems occur please turn on the debugger with /crispycore debug.");
         }
         if (announcer != null) {
             log("Auto broadcast system started!");

@@ -23,7 +23,6 @@ public class SetHomeCommand implements CommandExecutor {
             Location loc = p.getLocation();
             PlayerManager pd = new PlayerManager(p.getUniqueId().toString());
             ConfigurationSection pSection = pd.getConfigurationSection("Player");
-            ;
             ConfigurationSection hSection = pd.getConfigurationSection("Home data");
             int aHomes = 0;
             int mHomes = 0;
@@ -38,7 +37,7 @@ public class SetHomeCommand implements CommandExecutor {
                     aHomes++;
                     pSection.set("Homes", aHomes);
                     pd.save();
-                    sendChat(p, "&7Home '&ahome&7' created.");
+                    sendChat(p, "&7Home '&ehome&7' created.");
                     return true;
                 }
                 sendChat(p, "&cUsage: /sethome <name>");
@@ -62,12 +61,12 @@ public class SetHomeCommand implements CommandExecutor {
                         hSection.getConfigurationSection(args[0].toLowerCase()).set("y", loc.getY());
                         hSection.getConfigurationSection(args[0].toLowerCase()).set("z", loc.getZ());
                         hSection.getConfigurationSection(args[0].toLowerCase()).set("w", loc.getWorld().getName());
-                        sendChat(p, String.format("&7Home '&a%s&7' updated.", args[0].toLowerCase()));
+                        sendChat(p, String.format("&7Home '&e%s&7' updated.", args[0].toLowerCase()));
                         pd.save();
                         return true;
                     }
                 }
-                if (aHomes == mHomes) {
+                if (aHomes >= mHomes) {
                     sendChat(p, String.format("&cYou can only set &7%s &chomes.", mHomes));
                     return true;
                 }
@@ -80,7 +79,7 @@ public class SetHomeCommand implements CommandExecutor {
                     aHomes++;
                     pSection.set("Homes", aHomes);
                     pd.save();
-                    sendChat(p, String.format("&7Home '&a%s&7' created.", args[0].toLowerCase()));
+                    sendChat(p, String.format("&7Home '&e%s&7' created.", args[0].toLowerCase()));
                     return true;
                 }
             }

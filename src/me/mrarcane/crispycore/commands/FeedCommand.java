@@ -27,6 +27,7 @@ public class FeedCommand implements CommandExecutor {
             Player p = (Player) sender;
             Random r = new Random();
             List<String> msgs = Main.getInstance().getConfig().getStringList("Feed messages");
+
             if (args.length == 0) {
                 p.setFoodLevel(20);
                 sendChat(p, msgs.get(r.nextInt(msgs.size())));
@@ -34,10 +35,12 @@ public class FeedCommand implements CommandExecutor {
             }
             return true;
         }
+
         if (args.length == 0) {
             log("Usage: /feed <player>");
             return true;
         }
+
         if (args.length == 1) {
             Player p = Bukkit.getPlayer(args[0]);
             p.setFoodLevel(20);

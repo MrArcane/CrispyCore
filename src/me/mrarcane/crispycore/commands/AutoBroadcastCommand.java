@@ -25,12 +25,14 @@ public class AutoBroadcastCommand implements CommandExecutor {
             sendChat(sender, "&cUsage: /autobroadcast <add/delete/list>");
             return true;
         }
+
         //Check if args is add
         if (args[0].equalsIgnoreCase("add")) {
             if (args.length == 1) {
                 sendChat(sender, "&cUsage: /autobroadcast add <message>");
                 return true;
             }
+
             String msg = "";
             for (int i = 1; i < args.length; i++) {
                 msg = msg + " " + args[i];
@@ -42,6 +44,7 @@ public class AutoBroadcastCommand implements CommandExecutor {
             AnnouncementManager.restart(Main.getInstance());
             return true;
         }
+
         //Check if args is delete
         if (args[0].equalsIgnoreCase("delete") || args[0].equalsIgnoreCase("del")) {
             if (args.length == 1) {
@@ -64,6 +67,7 @@ public class AutoBroadcastCommand implements CommandExecutor {
             AnnouncementManager.restart(Main.getInstance());
             return true;
         }
+
         //Check if args is list
         if (args[0].equalsIgnoreCase("list")) {
             for (int i = 0; i < msgSection.size(); i++) {
@@ -71,6 +75,7 @@ public class AutoBroadcastCommand implements CommandExecutor {
             }
             return true;
         }
+
         //Invaild command
         sendChat(sender, "&cInvalid command.");
         sendChat(sender, "&cUsage: /autobroadcast <add/delete/list>");

@@ -11,7 +11,6 @@ import org.bukkit.entity.Player;
 
 import java.util.Random;
 
-import static java.lang.Math.abs;
 import static me.mrarcane.crispycore.utils.ChatUtil.log;
 import static me.mrarcane.crispycore.utils.ChatUtil.sendChat;
 
@@ -25,26 +24,19 @@ public class WildCommand implements CommandExecutor {
         if (sender instanceof Player) {
             Player p = (Player) sender;
             World w = Bukkit.getWorld("world");
-            int minX = 0;
-            int minZ = 0;
-            int maxX = 0;
-            int maxZ = 0;
-            int x = 0;
-            int y = 0;
-            int z = 0;
-            Location loc = null;
+            int minX, minZ, maxX, maxZ, x, y, z = 0;
+            Location loc;
             int maxConfig = Main.getInstance().getConfig().getInt("Settings.Max wild");
-            do {
-                Random r = new Random();
-                minX = 0 - maxConfig;
-                minZ = 0 - maxConfig;
-                maxX = maxConfig;
-                maxZ = maxConfig;
-                x = r.nextInt(maxX + 1 - minX) + minX;
-                z = r.nextInt(maxZ + 1 - minZ) + minZ;
-                y = w.getHighestBlockYAt(x, z) + 3;
-                loc = new Location(w, x, y, z);
-            } while ((abs(x) < 20000) && (abs(z) < 20000));
+            Random r = new Random();
+            minX = -maxConfig;
+            minZ = -maxConfig;
+            maxX = maxConfig;
+            maxZ = maxConfig;
+            x = r.nextInt(maxX + 1 - minX) + minX;
+            z = r.nextInt(maxZ + 1 - minZ) + minZ;
+            assert w != null;
+            y = w.getHighestBlockYAt(x, z) + 3;
+            loc = new Location(w, x, y, z);
             p.teleport(loc);
             sendChat(p, "&aCrispy farted you into a random direction!");
             return true;

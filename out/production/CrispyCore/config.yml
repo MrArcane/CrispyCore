@@ -1,9 +1,28 @@
 Settings:
   Debug: false
   Max wild: 39998
-Ranks:
+April fools: false
+Rules:
+  - 'No griefing'
+Links:
+  - 'Add your links.'
+Staff list:
+  - mod
+  - admin
+  - owner
+  - developer
+Fun items:
+  Stick of truth:
+    - '&cThe stick says: &7{player} has a secert crush on markaroli'
+    - '&cThe stick says: &7Doesnt like {player}s thoughts'
+  Trout of destiny:
+    - '&a{player} just took a trout to the face!'
+Groups:
+  #Placeholders, PlaceholderAPI placeholders:
+  #{suffix} {prefix} {message} {player}
   default:
-    name: '&8{player}'
+    List name: '&8{player}'
+    Chat format: '{player}: {message}'
 New join:
   Announcement: '&a{player} has joined for the first time!'
   Messages:
@@ -11,11 +30,13 @@ New join:
 Night skip:
   Bed enter: '&7{player} &egot in bed, sweet Dreams! &7[&a{inBed}&7/&a{players}&7]'
   Bed leave: '&7{player} &egot out of bed! &7[&a{inBed}&7/&a{players}&7]'
-  Player quit: '&7{player} &eleft the game! &7[&a{inBed}&7/&a{players}&7]'
-  Afk change: '&7{player} &e{reason}! &7[&a{inBed}&7/&a{players}&7]'
+  Vote change: '&7{player} &e{reason}! &7[&a{inBed}&7/&a{players}&7]'
   World: world
   Morning messages:
   - '&aGood morning!'
   - '&aWakey wakey eggs and bacon!'
 Feed messages:
   - '&aYou have been fed!'
+Chat replacement:
+  fuck:
+    - 'f***'

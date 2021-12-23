@@ -19,6 +19,7 @@ public class AfkCommand implements CommandExecutor {
             setAfk(p);
             return true;
         }
+
         return false;
     }
 }

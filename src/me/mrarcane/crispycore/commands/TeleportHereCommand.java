@@ -31,8 +31,8 @@ public class TeleportHereCommand implements CommandExecutor {
                 return true;
             }
             t.teleport(p);
-            sendChat(p, String.format("&eTeleporting &7%s &eto your location.", t.getName()));
-            sendChat(t, String.format("&cYou're being teleported to &l&7%s's &clocation.", p.getName()));
+            sendChat(p, String.format("&7Teleporting &e%s &7to your location.", t.getName()));
+            sendChat(t, String.format("&7You're being teleported to &e%s's &7location.", p.getName()));
             return true;
         }
         sendChat(Bukkit.getConsoleSender(), "&cYou must be a player to do this.");

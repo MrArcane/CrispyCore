@@ -14,6 +14,7 @@ public class HomesCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+
         if (sender instanceof Player) {
             Player p = (Player) sender;
             new HomeInventory(p);

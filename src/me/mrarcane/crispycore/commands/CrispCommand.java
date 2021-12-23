@@ -23,23 +23,28 @@ public class CrispCommand implements CommandExecutor {
                 sendChat(p, "&cUsage /crisp <player>");
                 return true;
             }
+
             if (args[0] == null) {
                 sendChat(p, String.format("&c%s was not found.", args[0]));
                 return true;
             }
+
             Player t = Bukkit.getPlayer(args[0]);
             if (t == p) {
                 sendChat(p, "&cSelf harm is bad!");
                 return true;
             }
+
             //Bukkit.getServer().getWorld(t.getWorld().getName()).getBlockAt(t.getLocation()).getRelative(BlockFace.UP).setType(Material.FIRE);
             t.setFireTicks(20);
             broadcast(String.format("&7%s &cshowed &7%s &chow to get crispy!", p.getName(), t.getName()));
             for (Player op : Bukkit.getOnlinePlayers()) {
                 op.playSound(op.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_TWINKLE, 10, 1);
             }
+
             return true;
         }
+
         return false;
     }
 }
