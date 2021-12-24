@@ -40,7 +40,7 @@ public class PrefixCommand implements CommandExecutor  {
             for (int i = 1; i < args.length; i++) {
                 prefix = (prefix + " " + args[i]).trim();
             }
-            pm.set("Player.Prefix", "[" + prefix + "&f]");
+            pm.set("Player.Prefix", prefix);
             pm.save();
             sendChat(sender, String.format("&7%s's &aprefix has been set to: &7%s", target.getName(), prefix));
             if (target.isOnline()) {

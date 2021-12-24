@@ -1,10 +1,7 @@
 package me.mrarcane.crispycore;
 
 import me.mrarcane.crispycore.commands.*;
-import me.mrarcane.crispycore.completes.FunItemComplete;
-import me.mrarcane.crispycore.completes.GamemodeComplete;
-import me.mrarcane.crispycore.completes.HomeComplete;
-import me.mrarcane.crispycore.completes.HomeTeleportComplete;
+import me.mrarcane.crispycore.completes.*;
 import me.mrarcane.crispycore.files.AnnouncementsFile;
 import me.mrarcane.crispycore.files.HomeIconsFile;
 import me.mrarcane.crispycore.files.MotdFile;
@@ -123,6 +120,7 @@ public class Main extends JavaPlugin {
         getComplete("hometeleport", new HomeTeleportComplete());
         getComplete("funitem", new FunItemComplete());
         getComplete("gamemode", new GamemodeComplete());
+        getComplete("deletehome", new DeleteHomeComplete());
         //Events
         loadEvent(new AnvilListener());
         loadEvent(new PlayerJoinListener());

@@ -118,7 +118,7 @@ public class PlayerChatListener implements Listener {
         Player p = e.getPlayer();
         ConfigurationSection groupsSection = Main.getSection("Groups");
         String rank = VaultHook.permission.getPrimaryGroup(p);
-        String format = color(groupsSection.getConfigurationSection(rank).getString("Chat format")).replace("{player}", color(p.getDisplayName())) + color("&7" + e.getMessage());
+        String format = color(groupsSection.getConfigurationSection(rank).getString("Chat format")).replace("{player}", color(p.getDisplayName())) + color("&7") + e.getMessage();
         if (prefixMap.containsKey(p)) {
             e.setFormat(color(prefixMap.get(p)) + " " + format);
             return;
